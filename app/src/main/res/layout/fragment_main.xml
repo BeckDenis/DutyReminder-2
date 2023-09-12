@@ -6,42 +6,11 @@
     android:layout_width="match_parent"
     tools:context=".fragments.main.MainFragment">
 
-    <TextView
-        android:id="@+id/picked_time_and_date_text"
-        android:textSize="24dp"
-        android:gravity="center"
-        android:textStyle="bold"
-        android:textColor="@color/black"
+    <com.google.android.material.button.MaterialButton
+        android:layout_marginHorizontal="20dp"
+        android:id="@+id/new_reminder_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:text="18:00\n13.09.2023" />
-
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:orientation="horizontal">
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/time_picker_button"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:text="@string/time_picker_button_text" />
-
-        <View
-            android:layout_height="0dp"
-            android:layout_width="16dp" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/date_picker_button"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:text="@string/date_picker_button_text" />
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
+        android:text="@string/new_reminder_button"/>
 
 </androidx.appcompat.widget.LinearLayoutCompat>

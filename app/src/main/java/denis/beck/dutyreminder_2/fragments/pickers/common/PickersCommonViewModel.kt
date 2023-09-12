@@ -14,6 +14,10 @@ class PickersCommonViewModel : ViewModel() {
     private val _pickedDateAndTimeText = MutableLiveData<String>()
     val pickedDateAndTimeText: LiveData<String> = _pickedDateAndTimeText
 
+    init {
+        invalidateDateAndTimeText()
+    }
+
     fun setTime(hourOfDay: Int, minute: Int) {
         dateAndTime = dateAndTime.apply {
             set(Calendar.HOUR_OF_DAY, hourOfDay)
@@ -33,11 +37,13 @@ class PickersCommonViewModel : ViewModel() {
 
     private fun invalidateDateAndTimeText() {
         val year = dateAndTime.get(Calendar.YEAR)
-        val month = dateAndTime.get(Calendar.MONTH)
-        val dayOfMonth = dateAndTime.get(Calendar.DAY_OF_MONTH)
-        val hoursOfDay = dateAndTime.get(Calendar.HOUR_OF_DAY)
-        val minute = dateAndTime.get(Calendar.MINUTE)
+        val month = dateAndTime.get(Calendar.MONTH).toDateAndTimeString()
+        val dayOfMonth = dateAndTime.get(Calendar.DAY_OF_MONTH).toDateAndTimeString()
+        val hoursOfDay = dateAndTime.get(Calendar.HOUR_OF_DAY).toDateAndTimeString()
+        val minute = dateAndTime.get(Calendar.MINUTE).toDateAndTimeString()
 
         _pickedDateAndTimeText.value = "$hoursOfDay:$minute\n$dayOfMonth.$month.$year"
     }
+
+    private fun Int.toDateAndTimeString() : String = if (this >= 9) this.toString() else "0$this"
 }
