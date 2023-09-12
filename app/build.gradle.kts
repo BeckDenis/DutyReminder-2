@@ -47,4 +47,5 @@ dependencies {
     implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.work:work-runtime-ktx:2.8.1")
     implementation("com.jakewharton.timber:timber:5.0.1")
+    implementation("androidx.fragment:fragment-ktx:1.6.1")
 }

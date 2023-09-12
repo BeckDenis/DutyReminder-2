@@ -2,18 +2,19 @@ package denis.beck.dutyreminder_2
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import denis.beck.dutyreminder_2.remindManager.RemindManager
+import androidx.fragment.app.add
+import androidx.fragment.app.commit
+import denis.beck.dutyreminder_2.fragments.main.MainFragment
 
 class MainActivity : AppCompatActivity() {
-
-    private lateinit var remindManager : RemindManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        remindManager = RemindManager(this)
-
-        remindManager.setReminder()
+        supportFragmentManager.commit {
+            add<MainFragment>(R.id.fragment_container)
+            addToBackStack(null)
+        }
     }
 
 }
