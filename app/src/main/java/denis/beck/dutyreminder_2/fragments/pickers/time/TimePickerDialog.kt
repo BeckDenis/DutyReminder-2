@@ -1,4 +1,4 @@
-package denis.beck.dutyreminder_2.fragments.pickers.date
+package denis.beck.dutyreminder_2.fragments.pickers.time
 
 import android.app.Dialog
 import android.app.TimePickerDialog
@@ -6,9 +6,13 @@ import android.os.Bundle
 import android.text.format.DateFormat
 import android.widget.TimePicker
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.activityViewModels
+import denis.beck.dutyreminder_2.fragments.pickers.common.PickersCommonViewModel
 import java.util.Calendar
 
 class TimePickerDialog: DialogFragment(), TimePickerDialog.OnTimeSetListener {
+
+    private val pickersSharedViewModel by activityViewModels<PickersCommonViewModel>()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         // Use the current time as the default values for the picker
@@ -21,6 +25,6 @@ class TimePickerDialog: DialogFragment(), TimePickerDialog.OnTimeSetListener {
     }
 
     override fun onTimeSet(view: TimePicker, hourOfDay: Int, minute: Int) {
-        // Do something with the time chosen by the user
+        pickersSharedViewModel.setTime(hourOfDay, minute)
     }
 }

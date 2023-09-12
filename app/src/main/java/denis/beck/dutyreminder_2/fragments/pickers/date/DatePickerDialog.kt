@@ -5,9 +5,13 @@ import android.app.Dialog
 import android.os.Bundle
 import android.widget.DatePicker
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.activityViewModels
+import denis.beck.dutyreminder_2.fragments.pickers.common.PickersCommonViewModel
 import java.util.Calendar
 
 class DatePickerDialog : DialogFragment(), DatePickerDialog.OnDateSetListener {
+
+    private val pickersSharedViewModel by activityViewModels<PickersCommonViewModel>()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         // Use the current time as the default values for the picker
@@ -21,6 +25,6 @@ class DatePickerDialog : DialogFragment(), DatePickerDialog.OnDateSetListener {
     }
 
     override fun onDateSet(view: DatePicker, year: Int, month: Int, day: Int) {
-        TODO("Not yet implemented")
+        pickersSharedViewModel.setDate(year, month, day)
     }
 }
