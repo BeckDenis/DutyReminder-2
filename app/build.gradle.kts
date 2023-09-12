@@ -45,4 +45,6 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.9.0")
+    implementation("androidx.work:work-runtime-ktx:2.8.1")
+    implementation("com.jakewharton.timber:timber:5.0.1")
 }
