@@ -1,14 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     tools:context=".fragments.main.MainFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:layout_height="match_parent"
+        android:textSize="24dp"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textColor="@color/black"
         android:layout_width="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        tools:text="18:00\n13.09.2023" />
 
-</FrameLayout>
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/time_picker_button"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:text="@string/time_picker_button_text" />
+
+        <View
+            android:layout_height="0dp"
+            android:layout_width="16dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/date_picker_button"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:text="@string/date_picker_button_text" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>
