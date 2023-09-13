@@ -13,7 +13,8 @@ class RemindManager(private val context: Context) {
     fun setReminder(remind: Remind) {
         val intent = Intent(context, RemindReceiver::class.java).apply {
             action = RemindReceiver.REMIND_ACTION
-            putExtra(RemindReceiver.REMIND_EXTRA, remind.message)
+            putExtra(RemindReceiver.REMIND_ID_EXTRA, remind.id)
+            putExtra(RemindReceiver.REMIND_MESSAGE_EXTRA, remind.message)
         }
 
         val pendingIntent = PendingIntent

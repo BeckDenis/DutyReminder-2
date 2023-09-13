@@ -7,7 +7,7 @@ import denis.beck.dutyreminder_2.models.Remind
 
 @Entity(tableName = "remind")
 data class RemindEntity(
-    @PrimaryKey(autoGenerate = true) val id: Int,
+    @PrimaryKey(autoGenerate = true) val id: Long,
     @ColumnInfo val timestamp: Long,
     @ColumnInfo val message: String,
 ) {

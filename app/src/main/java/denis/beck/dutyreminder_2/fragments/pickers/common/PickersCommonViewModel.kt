@@ -13,6 +13,7 @@ class PickersCommonViewModel : ViewModel() {
     private var dateAndTime: Calendar = Calendar.getInstance().apply {
         set(Calendar.HOUR_OF_DAY, 18)
         set(Calendar.MINUTE, 0)
+        set(Calendar.SECOND, 0)
     }
 
     val timestamp: Long

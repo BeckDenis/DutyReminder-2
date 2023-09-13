@@ -11,8 +11,11 @@ interface RemindDao {
     fun getAll(): List<RemindEntity>
 
     @Insert
-    fun insertAll(vararg reminders: RemindEntity)
+    fun insert(remind: RemindEntity) : Long
 
     @Delete
     fun delete(reminder: RemindEntity)
+
+    @Query("DELETE FROM remind WHERE id = :remindId")
+    fun delete(remindId: Long)
 }

@@ -11,7 +11,9 @@ import denis.beck.dutyreminder_2.models.Remind
 import denis.beck.dutyreminder_2.remindManager.RemindManager
 import denis.beck.dutyreminder_2.room.RemindDatabase
 import denis.beck.dutyreminder_2.utils.SingleLiveEvent
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class NewReminderViewModel(
     private val remindManager: RemindManager,
@@ -27,6 +29,13 @@ class NewReminderViewModel(
     private val _goBack = SingleLiveEvent<Unit>()
     val goBack: LiveData<Unit> = _goBack
 
+    init {
+        viewModelScope.launch(Dispatchers.IO) {
+            val allReminds = remindDatabase.reminderDao().getAll()
+            Timber.d("reminds: $allReminds prpr")
+        }
+    }
+
     fun onDatePickerButtonClick() {
         _showDatePicker.value = Unit
     }
@@ -40,9 +49,10 @@ class NewReminderViewModel(
             timestamp = timestamp,
             message = message,
         )
-        remindManager.setReminder(remind)
-        viewModelScope.launch {
-            remindDatabase.reminderDao().insertAll(remind.toRemindEntity())
+        viewModelScope.launch(Dispatchers.IO) {
+            remindDatabase.reminderDao().insert(remind.toRemindEntity()).also { id ->
+                remindManager.setReminder(remind.copy(id = id))
+            }
         }
         _goBack.value = Unit
     }
