@@ -6,13 +6,17 @@ import androidx.lifecycle.ViewModel
 import java.util.Calendar
 
 class PickersCommonViewModel : ViewModel() {
+
+    private val _pickedDateAndTimeText = MutableLiveData<String>()
+    val pickedDateAndTimeText: LiveData<String> = _pickedDateAndTimeText
+
     private var dateAndTime: Calendar = Calendar.getInstance().apply {
         set(Calendar.HOUR_OF_DAY, 18)
         set(Calendar.MINUTE, 0)
     }
 
-    private val _pickedDateAndTimeText = MutableLiveData<String>()
-    val pickedDateAndTimeText: LiveData<String> = _pickedDateAndTimeText
+    val timestamp: Long
+        get() = dateAndTime.timeInMillis
 
     init {
         invalidateDateAndTimeText()

@@ -17,12 +17,10 @@ import denis.beck.dutyreminder_2.fragments.pickers.date.DatePickerDialog
 import denis.beck.dutyreminder_2.fragments.pickers.time.TimePickerDialog
 import denis.beck.dutyreminder_2.remindManager.RemindManager
 
-class MainFragment : Fragment() {
+class MainFragment() : Fragment() {
 
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
-
-    private lateinit var remindManager: RemindManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,8 +38,5 @@ class MainFragment : Fragment() {
                 addToBackStack(null)
             }
         }
-
-        remindManager = RemindManager(requireContext())
-        remindManager.setReminder()
     }
 }
