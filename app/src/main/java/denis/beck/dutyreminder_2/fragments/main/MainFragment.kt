@@ -11,7 +11,7 @@ import androidx.fragment.app.viewModels
 import denis.beck.dutyreminder_2.R
 import denis.beck.dutyreminder_2.databinding.FragmentMainBinding
 import denis.beck.dutyreminder_2.epoxy.RemindController
-import denis.beck.dutyreminder_2.fragments.newReminder.NewReminderFragment
+import denis.beck.dutyreminder_2.fragments.newReminder.ReminderFragment
 
 class MainFragment : Fragment() {
 
@@ -20,6 +20,11 @@ class MainFragment : Fragment() {
 
     private val viewModel by viewModels<MainViewModel> { MainViewModel.Factory }
     private lateinit var mainController : RemindController
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.getReminds()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,17 +36,29 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.getReminds()
         mainController = RemindController()
-        binding.mainRv.setController(mainController)
-        viewModel.data.observe(viewLifecycleOwner) {
+        viewModel.setup()
+        binding.setup()
+    }
+
+    private fun FragmentMainBinding.setup() {
+        mainRv.setController(mainController)
+        newReminderButton.setOnClickListener {
+            openRemindFragment()
+        }
+    }
+
+    private fun MainViewModel.setup() {
+        data.observe(viewLifecycleOwner) {
             mainController.setData(it, true)
         }
-        binding.newReminderButton.setOnClickListener {
-            parentFragmentManager.commit {
-                replace<NewReminderFragment>(R.id.fragment_container)
-                addToBackStack(null)
-            }
+        goToRemind.observe(viewLifecycleOwner, ::openRemindFragment)
+    }
+
+    private fun openRemindFragment(remindId: Long? = null) {
+        parentFragmentManager.commit {
+            replace(R.id.fragment_container, ReminderFragment.getInstance(remindId))
+            addToBackStack(null)
         }
     }
 }

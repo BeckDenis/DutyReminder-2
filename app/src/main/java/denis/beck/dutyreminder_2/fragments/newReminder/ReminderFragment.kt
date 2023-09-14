@@ -11,19 +11,32 @@ import android.widget.TimePicker
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import denis.beck.dutyreminder_2.databinding.FragmentNewReminderBinding
-import denis.beck.dutyreminder_2.fragments.pickers.common.PickersViewModel
 import denis.beck.dutyreminder_2.fragments.pickers.date.RemindDatePickerDialog
 import denis.beck.dutyreminder_2.fragments.pickers.time.RemindTimePickerDialog
+import denis.beck.dutyreminder_2.utils.parcelable
 
-class NewReminderFragment :
+class ReminderFragment :
     Fragment(),
     TimePickerDialog.OnTimeSetListener,
     DatePickerDialog.OnDateSetListener {
 
+    companion object {
+        private const val REMIND_ID_ARG_KEY = "arg.remind.id"
+
+        fun getInstance(remindId: Long?) : ReminderFragment {
+            val instance = ReminderFragment()
+            instance.arguments = Bundle().apply {
+                remindId?.let {
+                    putLong(REMIND_ID_ARG_KEY, remindId)
+                }
+            }
+            return instance
+        }
+    }
+
     private var _binding: FragmentNewReminderBinding? = null
     private val binding get() = _binding!!
 
-    private val pickersViewModel by viewModels<PickersViewModel>()
     private val viewModel by viewModels<NewReminderViewModel> { NewReminderViewModel.Factory }
 
     override fun onCreateView(
@@ -36,7 +49,7 @@ class NewReminderFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        pickersViewModel.setup()
+        viewModel.init(arguments?.getLong(REMIND_ID_ARG_KEY))
         viewModel.setup()
         binding.setup()
     }
@@ -50,7 +63,7 @@ class NewReminderFragment :
         }
         saveButton.setOnClickListener {
             viewModel.onSaveButtonClicked(
-                pickersViewModel.timestamp,
+                viewModel.timestamp,
                 binding.messageTextField.text.toString()
             )
         }
@@ -66,19 +79,17 @@ class NewReminderFragment :
         goBack.observe(viewLifecycleOwner) {
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
-    }
-
-    private fun PickersViewModel.setup() {
         pickedDateAndTimeText.observe(viewLifecycleOwner) { text ->
             binding.pickedTimeAndDateText.text = text
         }
     }
 
+
     override fun onTimeSet(view: TimePicker, hourOfDay: Int, minute: Int) {
-        pickersViewModel.setTime(hourOfDay, minute)
+        viewModel.setTime(hourOfDay, minute)
     }
 
     override fun onDateSet(view: DatePicker, year: Int, month: Int, day: Int) {
-        pickersViewModel.setDate(year, month, day)
+        viewModel.setDate(year, month, day)
     }
 }

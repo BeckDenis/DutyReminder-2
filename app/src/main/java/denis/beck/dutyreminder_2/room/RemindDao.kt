@@ -8,14 +8,17 @@ import androidx.room.Query
 @Dao
 interface RemindDao {
     @Query("SELECT * FROM remind")
-    fun getAll(): List<RemindEntity>
+    suspend fun getAll(): List<RemindEntity>
+
+    @Query("SELECT * FROM remind WHERE id = :remindId")
+    suspend fun get(remindId: Long): RemindEntity?
 
     @Insert
-    fun insert(remind: RemindEntity) : Long
+    suspend fun insert(remind: RemindEntity) : Long
 
     @Delete
-    fun delete(reminder: RemindEntity)
+    suspend fun delete(reminder: RemindEntity)
 
     @Query("DELETE FROM remind WHERE id = :remindId")
-    fun delete(remindId: Long)
+    suspend fun delete(remindId: Long)
 }

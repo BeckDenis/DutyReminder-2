@@ -1,23 +1,26 @@
 package denis.beck.dutyreminder_2.fragments.newReminder
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
 import denis.beck.dutyreminder_2.DutyReminderApp
-import denis.beck.dutyreminder_2.models.Remind
+import denis.beck.dutyreminder_2.epoxy.repositories.RemindRepository
+import denis.beck.dutyreminder_2.models.RemindDomainModel
 import denis.beck.dutyreminder_2.remindManager.RemindManager
 import denis.beck.dutyreminder_2.room.RemindDatabase
 import denis.beck.dutyreminder_2.utils.SingleLiveEvent
+import denis.beck.dutyreminder_2.utils.toDateAndTimeString
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import timber.log.Timber
+import java.util.Calendar
 
 class NewReminderViewModel(
     private val remindManager: RemindManager,
-    private val remindDatabase: RemindDatabase,
+    private val remindRepository: RemindRepository,
 ) : ViewModel() {
 
     private val _showDatePicker = SingleLiveEvent<Unit>()
@@ -29,10 +32,20 @@ class NewReminderViewModel(
     private val _goBack = SingleLiveEvent<Unit>()
     val goBack: LiveData<Unit> = _goBack
 
-    init {
+    private val _pickedDateAndTimeText = MutableLiveData<String>()
+    val pickedDateAndTimeText: LiveData<String> = _pickedDateAndTimeText
+
+    private val dateAndTime: Calendar = Calendar.getInstance()
+
+    val timestamp: Long
+        get() = dateAndTime.timeInMillis
+
+    fun init(remindId: Long?) {
         viewModelScope.launch(Dispatchers.IO) {
-            val allReminds = remindDatabase.reminderDao().getAll()
-            Timber.d("reminds: $allReminds prpr")
+            remindRepository.getRemind(id = remindId)?.let { remind ->
+                dateAndTime.timeInMillis = remind.timestamp
+            }
+            invalidateDateAndTimeText()
         }
     }
 
@@ -45,16 +58,41 @@ class NewReminderViewModel(
     }
 
     fun onSaveButtonClicked(timestamp: Long, message: String) {
-        val remind = Remind(
+        val remindDomainModel = RemindDomainModel(
             timestamp = timestamp,
             message = message,
         )
         viewModelScope.launch(Dispatchers.IO) {
-            remindDatabase.reminderDao().insert(remind.toRemindEntity()).also { id ->
-                remindManager.setReminder(remind.copy(id = id))
-            }
+            remindManager.setReminder(remindDomainModel)
         }
         _goBack.value = Unit
+    }
+
+    fun setTime(hourOfDay: Int, minute: Int) {
+        dateAndTime.apply {
+            set(Calendar.HOUR_OF_DAY, hourOfDay)
+            set(Calendar.MINUTE, minute)
+        }
+        invalidateDateAndTimeText()
+    }
+
+    fun setDate(year: Int, month: Int, day: Int) {
+        dateAndTime.apply {
+            set(Calendar.YEAR, year);
+            set(Calendar.MONTH, month);
+            set(Calendar.DAY_OF_MONTH, day)
+        }
+        invalidateDateAndTimeText()
+    }
+
+    private fun invalidateDateAndTimeText() {
+        val year = dateAndTime.get(Calendar.YEAR)
+        val month = dateAndTime.get(Calendar.MONTH).toDateAndTimeString()
+        val dayOfMonth = dateAndTime.get(Calendar.DAY_OF_MONTH).toDateAndTimeString()
+        val hoursOfDay = dateAndTime.get(Calendar.HOUR_OF_DAY).toDateAndTimeString()
+        val minute = dateAndTime.get(Calendar.MINUTE).toDateAndTimeString()
+
+        _pickedDateAndTimeText.postValue("$hoursOfDay:$minute\n$dayOfMonth.$month.$year")
     }
 
     companion object {
@@ -65,9 +103,10 @@ class NewReminderViewModel(
                 extras: CreationExtras
             ): T {
                 val application = checkNotNull(extras[APPLICATION_KEY]) as DutyReminderApp
+                val remindRepository = RemindRepository(application.remindDatabase.reminderDao())
                 return NewReminderViewModel(
-                    RemindManager(application),
-                    application.remindDatabase,
+                    RemindManager(application, remindRepository),
+                    remindRepository,
                 ) as T
             }
         }

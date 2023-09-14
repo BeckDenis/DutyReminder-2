@@ -5,6 +5,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.Intent.ACTION_REBOOT
 import denis.beck.dutyreminder_2.DutyReminderApp
+import denis.beck.dutyreminder_2.epoxy.repositories.RemindRepository
+import denis.beck.dutyreminder_2.models.RemindDomainModel
 import denis.beck.dutyreminder_2.remindManager.RemindManager
 import denis.beck.dutyreminder_2.room.RemindDao
 import denis.beck.dutyreminder_2.room.RemindEntity
@@ -14,34 +16,36 @@ class RebootReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) = goAsync {
         if (intent?.action == ACTION_REBOOT && context != null) {
             val remindDao = (context.applicationContext as DutyReminderApp).remindDatabase.reminderDao()
-            val reminds = remindDao.getAll()
+            val remindRepository = RemindRepository(remindDao)
+            val reminds = remindRepository.getReminds()
             val currentTime = System.currentTimeMillis()
 
-            deleteExpiredReminds(reminds, currentTime, remindDao)
-            resetActualReminds(context, reminds, currentTime)
+            deleteExpiredReminds(reminds, currentTime, remindRepository)
+            resetActualReminds(context, reminds, currentTime, remindRepository)
         }
     }
 
-    private fun resetActualReminds(
+    private suspend fun resetActualReminds(
         context: Context,
-        reminds: List<RemindEntity>,
-        currentTime: Long
+        reminds: List<RemindDomainModel>,
+        currentTime: Long,
+        remindRepository: RemindRepository,
     ) {
-        val remindManager = RemindManager(context)
+        val remindManager = RemindManager(context, remindRepository)
         val actualReminds = reminds.filter { it.timestamp >= (currentTime + 1000L) }
         actualReminds.forEach {
-            remindManager.setReminder(it.toRemind())
+            remindManager.setReminder(it)
         }
     }
 
-    private fun deleteExpiredReminds(
-        reminds: List<RemindEntity>,
+    private suspend fun deleteExpiredReminds(
+        reminds: List<RemindDomainModel>,
         currentTime: Long,
-        remindDao: RemindDao
+        remindRepository: RemindRepository
     ) {
         val expiredReminds = reminds.filter { it.timestamp < (currentTime + 1000L) }
-        expiredReminds.forEach { remindEntry ->
-            remindDao.delete(remindEntry)
+        expiredReminds.forEach { remind ->
+            remindRepository.deleteRemind(remind.id)
         }
     }
 }
