@@ -8,4 +8,7 @@
     <string name="new_reminder_button">New Reminder</string>
     <string name="new_reminder_message_hint">Message</string>
     <string name="save">Save</string>
+
+    <string name="channel_name">Channel Name</string>
+    <string name="channel_description">Channel description</string>
 </resources>
