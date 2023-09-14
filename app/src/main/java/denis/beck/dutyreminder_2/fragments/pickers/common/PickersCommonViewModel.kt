@@ -3,6 +3,7 @@ package denis.beck.dutyreminder_2.fragments.pickers.common
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import denis.beck.dutyreminder_2.utils.toDateAndTimeString
 import java.util.Calendar
 
 class PickersCommonViewModel : ViewModel() {
@@ -49,6 +50,4 @@ class PickersCommonViewModel : ViewModel() {
 
         _pickedDateAndTimeText.value = "$hoursOfDay:$minute\n$dayOfMonth.$month.$year"
     }
-
-    private fun Int.toDateAndTimeString() : String = if (this >= 9) this.toString() else "0$this"
 }

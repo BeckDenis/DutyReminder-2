@@ -58,4 +58,7 @@ dependencies {
 
     implementation("com.google.android.material:material:1.9.0")
     implementation("com.jakewharton.timber:timber:5.0.1")
+
+    implementation("com.airbnb.android:epoxy:5.1.3")
+    ksp("com.airbnb.android:epoxy-processor:5.1.3")
 }

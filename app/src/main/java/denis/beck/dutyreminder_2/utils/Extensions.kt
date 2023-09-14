@@ -7,8 +7,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlin.time.Duration
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
+import kotlin.time.DurationUnit
 
 fun Context.showToast(text: CharSequence, duration: Int = Toast.LENGTH_SHORT) =
     Toast.makeText(this, text, duration).show()
@@ -27,3 +29,6 @@ fun BroadcastReceiver.goAsync(
         }
     }
 }
+
+fun Int.toDateAndTimeString() : String = if (this >= 9) this.toString() else "0$this"
+fun Duration.toDateAndTimeString(unit: DurationUnit) : String = this.toInt(unit).toDateAndTimeString()
