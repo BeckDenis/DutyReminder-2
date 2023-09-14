@@ -1,18 +1,13 @@
 package denis.beck.dutyreminder_2.fragments.pickers.date
 
 import android.app.DatePickerDialog
+import android.app.DatePickerDialog.OnDateSetListener
 import android.app.Dialog
 import android.os.Bundle
-import android.widget.DatePicker
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.activityViewModels
-import denis.beck.dutyreminder_2.fragments.pickers.common.PickersCommonViewModel
 import java.util.Calendar
 
-class DatePickerDialog : DialogFragment(), DatePickerDialog.OnDateSetListener {
-
-    private val pickersSharedViewModel by activityViewModels<PickersCommonViewModel>()
-
+class RemindDatePickerDialog : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         // Use the current time as the default values for the picker
         val c = Calendar.getInstance()
@@ -21,10 +16,6 @@ class DatePickerDialog : DialogFragment(), DatePickerDialog.OnDateSetListener {
         val day = c.get(Calendar.DAY_OF_MONTH)
 
         // Create a new instance of TimePickerDialog and return it
-        return DatePickerDialog(requireContext(), this, year, month, day)
-    }
-
-    override fun onDateSet(view: DatePicker, year: Int, month: Int, day: Int) {
-        pickersSharedViewModel.setDate(year, month, day)
+        return DatePickerDialog(requireContext(), parentFragment as OnDateSetListener, year, month, day)
     }
 }

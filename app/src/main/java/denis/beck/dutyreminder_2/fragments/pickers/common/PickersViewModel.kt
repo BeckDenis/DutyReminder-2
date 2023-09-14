@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import denis.beck.dutyreminder_2.utils.toDateAndTimeString
 import java.util.Calendar
 
-class PickersCommonViewModel : ViewModel() {
+class PickersViewModel : ViewModel() {
 
     private val _pickedDateAndTimeText = MutableLiveData<String>()
     val pickedDateAndTimeText: LiveData<String> = _pickedDateAndTimeText
