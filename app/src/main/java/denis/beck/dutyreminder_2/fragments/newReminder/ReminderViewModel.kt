@@ -11,14 +11,18 @@ import denis.beck.dutyreminder_2.DutyReminderApp
 import denis.beck.dutyreminder_2.epoxy.repositories.RemindRepository
 import denis.beck.dutyreminder_2.models.RemindDomainModel
 import denis.beck.dutyreminder_2.remindManager.RemindManager
-import denis.beck.dutyreminder_2.room.RemindDatabase
 import denis.beck.dutyreminder_2.utils.SingleLiveEvent
 import denis.beck.dutyreminder_2.utils.toDateAndTimeString
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.Calendar
 
-class NewReminderViewModel(
+enum class RemindViewState {
+    NEW,
+    CHANGE,
+}
+
+class ReminderViewModel(
     private val remindManager: RemindManager,
     private val remindRepository: RemindRepository,
 ) : ViewModel() {
@@ -35,15 +39,25 @@ class NewReminderViewModel(
     private val _pickedDateAndTimeText = MutableLiveData<String>()
     val pickedDateAndTimeText: LiveData<String> = _pickedDateAndTimeText
 
+    private val _message = MutableLiveData<String>()
+    val message: LiveData<String> = _message
+
     private val dateAndTime: Calendar = Calendar.getInstance()
+
+    private var initialRemind: RemindDomainModel? = null
 
     val timestamp: Long
         get() = dateAndTime.timeInMillis
 
+    var state: RemindViewState = RemindViewState.NEW
+
     fun init(remindId: Long?) {
+        remindId?.let { state = RemindViewState.CHANGE }
         viewModelScope.launch(Dispatchers.IO) {
             remindRepository.getRemind(id = remindId)?.let { remind ->
+                this@ReminderViewModel.initialRemind = remind
                 dateAndTime.timeInMillis = remind.timestamp
+                _message.postValue(remind.message)
             }
             invalidateDateAndTimeText()
         }
@@ -57,13 +71,27 @@ class NewReminderViewModel(
         _showTimePicker.value = Unit
     }
 
-    fun onSaveButtonClicked(timestamp: Long, message: String) {
-        val remindDomainModel = RemindDomainModel(
+    fun onSaveButtonClick(timestamp: Long, message: String) {
+        val newRemind = RemindDomainModel(
             timestamp = timestamp,
             message = message,
         )
         viewModelScope.launch(Dispatchers.IO) {
-            remindManager.setReminder(remindDomainModel)
+            initialRemind?.let { oldRemind ->
+                remindManager.updateReminder(
+                    newRemind = newRemind.copy(id = oldRemind.id),
+                    oldRemind = oldRemind,
+                )
+            } ?: remindManager.setReminder(newRemind)
+        }
+        _goBack.value = Unit
+    }
+
+    fun onDeleteButtonClick() {
+        viewModelScope.launch(Dispatchers.IO) {
+            initialRemind?.let { remind ->
+                remindManager.deleteReminder(remind)
+            }
         }
         _goBack.value = Unit
     }
@@ -104,7 +132,7 @@ class NewReminderViewModel(
             ): T {
                 val application = checkNotNull(extras[APPLICATION_KEY]) as DutyReminderApp
                 val remindRepository = RemindRepository(application.remindDatabase.reminderDao())
-                return NewReminderViewModel(
+                return ReminderViewModel(
                     RemindManager(application, remindRepository),
                     remindRepository,
                 ) as T

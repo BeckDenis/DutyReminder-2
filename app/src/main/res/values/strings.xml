@@ -11,4 +11,5 @@
 
     <string name="channel_name">Channel Name</string>
     <string name="channel_description">Channel description</string>
+    <string name="delete">Delete</string>
 </resources>

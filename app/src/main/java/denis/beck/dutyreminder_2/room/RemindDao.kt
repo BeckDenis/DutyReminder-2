@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 
 @Dao
 interface RemindDao {
@@ -21,4 +22,7 @@ interface RemindDao {
 
     @Query("DELETE FROM remind WHERE id = :remindId")
     suspend fun delete(remindId: Long)
+
+    @Update
+    suspend fun update(remind: RemindEntity)
 }

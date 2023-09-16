@@ -2,6 +2,7 @@ package denis.beck.dutyreminder_2.epoxy.repositories
 
 import denis.beck.dutyreminder_2.models.RemindDomainModel
 import denis.beck.dutyreminder_2.room.RemindDao
+import denis.beck.dutyreminder_2.room.RemindEntity
 
 class RemindRepository(private val remindDao: RemindDao) {
 
@@ -16,4 +17,6 @@ class RemindRepository(private val remindDao: RemindDao) {
         remindDao.insert(remindDomainModel.toEntity())
 
     suspend fun deleteRemind(remindId: Long) = remindDao.delete(remindId)
+
+    suspend fun updateRemind(remind: RemindDomainModel) = remindDao.update(remind.toEntity())
 }

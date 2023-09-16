@@ -21,11 +21,6 @@ class MainFragment : Fragment() {
     private val viewModel by viewModels<MainViewModel> { MainViewModel.Factory }
     private lateinit var mainController : RemindController
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel.getReminds()
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -36,6 +31,7 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.getReminds()
         mainController = RemindController()
         viewModel.setup()
         binding.setup()

@@ -8,12 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.DatePicker
 import android.widget.TimePicker
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import denis.beck.dutyreminder_2.databinding.FragmentNewReminderBinding
 import denis.beck.dutyreminder_2.fragments.pickers.date.RemindDatePickerDialog
 import denis.beck.dutyreminder_2.fragments.pickers.time.RemindTimePickerDialog
-import denis.beck.dutyreminder_2.utils.parcelable
 
 class ReminderFragment :
     Fragment(),
@@ -23,7 +23,7 @@ class ReminderFragment :
     companion object {
         private const val REMIND_ID_ARG_KEY = "arg.remind.id"
 
-        fun getInstance(remindId: Long?) : ReminderFragment {
+        fun getInstance(remindId: Long?): ReminderFragment {
             val instance = ReminderFragment()
             instance.arguments = Bundle().apply {
                 remindId?.let {
@@ -37,7 +37,7 @@ class ReminderFragment :
     private var _binding: FragmentNewReminderBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel by viewModels<NewReminderViewModel> { NewReminderViewModel.Factory }
+    private val viewModel by viewModels<ReminderViewModel> { ReminderViewModel.Factory }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -62,14 +62,18 @@ class ReminderFragment :
             viewModel.onDatePickerButtonClick()
         }
         saveButton.setOnClickListener {
-            viewModel.onSaveButtonClicked(
+            viewModel.onSaveButtonClick(
                 viewModel.timestamp,
                 binding.messageTextField.text.toString()
             )
         }
+        deleteButton.isVisible = viewModel.state == RemindViewState.CHANGE
+        deleteButton.setOnClickListener {
+            viewModel.onDeleteButtonClick()
+        }
     }
 
-    private fun NewReminderViewModel.setup() {
+    private fun ReminderViewModel.setup() {
         showDatePicker.observe(viewLifecycleOwner) {
             RemindDatePickerDialog().show(childFragmentManager, "datePicker")
         }
@@ -79,11 +83,13 @@ class ReminderFragment :
         goBack.observe(viewLifecycleOwner) {
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
-        pickedDateAndTimeText.observe(viewLifecycleOwner) { text ->
-            binding.pickedTimeAndDateText.text = text
+        pickedDateAndTimeText.observe(viewLifecycleOwner) { dateAndTime ->
+            binding.pickedTimeAndDateText.text = dateAndTime
+        }
+        message.observe(viewLifecycleOwner) { message ->
+            binding.messageTextField.setText(message)
         }
     }
-
 
     override fun onTimeSet(view: TimePicker, hourOfDay: Int, minute: Int) {
         viewModel.setTime(hourOfDay, minute)
