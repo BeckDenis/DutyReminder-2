@@ -55,7 +55,7 @@ class ReminderViewModel(
     var state: RemindViewState = RemindViewState.NEW
 
     fun init(remindId: Long?) {
-        remindId?.let { state = RemindViewState.CHANGE }
+        setState(remindId)
         viewModelScope.launch(Dispatchers.IO) {
             remindRepository.getRemind(id = remindId)?.let { remind ->
                 this@ReminderViewModel.initialRemind = remind
@@ -63,6 +63,13 @@ class ReminderViewModel(
                 _message.postValue(remind.message)
             }
             invalidateDateAndTimeText()
+        }
+    }
+
+    private fun setState(remindId: Long?) {
+        state = when (remindId) {
+            -1L -> RemindViewState.NEW
+            else -> RemindViewState.CHANGE
         }
     }
 

@@ -9,17 +9,23 @@ import java.util.Date
 class RemindPresentationMapper {
     private val calendar = Calendar.getInstance()
 
-    fun map(models: List<RemindDomainModel>): List<RemindPresentationModel> {
-        return models.map(::map)
+    fun map(models: List<RemindDomainModel>, onClickListener: (remindId: Long) -> Unit): List<RemindPresentationModel> {
+        return models.map { model ->
+            model.map(onClickListener)
+        }
     }
 
-    private fun map(model: RemindDomainModel): RemindPresentationModel {
-        calendar.time = Date(model.timestamp)
+    private fun RemindDomainModel.map(onClickListener: (remindId: Long) -> Unit): RemindPresentationModel {
+        calendar.time = Date(this.timestamp)
         return RemindPresentationModel(
-            id = model.id,
+            id = this.id,
             time = formatTime(),
-            message = model.message,
-        )
+            message = this.message,
+        ).apply {
+            this.onClickListener = {
+                onClickListener.invoke(this.id)
+            }
+        }
     }
 
     private fun formatTime() = "${calendar.get(Calendar.HOUR_OF_DAY).toDateAndTimeString()}:${calendar.get(Calendar.MINUTE).toDateAndTimeString()}"

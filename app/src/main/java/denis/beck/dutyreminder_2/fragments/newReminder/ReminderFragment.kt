@@ -49,7 +49,7 @@ class ReminderFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.init(arguments?.getLong(REMIND_ID_ARG_KEY))
+        viewModel.init(arguments?.getLong(REMIND_ID_ARG_KEY, -1))
         viewModel.setup()
         binding.setup()
     }

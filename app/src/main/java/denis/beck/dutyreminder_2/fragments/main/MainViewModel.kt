@@ -38,32 +38,15 @@ class MainViewModel(
                     .getRemindsByFlow()
                     .map { reminds ->
                         remindPresentationMapper
-                            .map(reminds)
-                            .map { remind ->
-                                remind.apply {
-                                    onClickListener = {
-                                        _goToRemind.postValue(id)
-                                    }
-                                }
-                            }
+                            .map(
+                                models = reminds,
+                                onClickListener = { _goToRemind.postValue(it) })
                     }
                     .collect { list ->
                         _data.value = list
                     }
             }
         )
-        viewModelScope.launch(Dispatchers.IO) {
-            val reminds = remindRepository.getReminds()
-            _data.postValue(
-                remindPresentationMapper.map(reminds).map { remind ->
-                    remind.apply {
-                        onClickListener = {
-                            _goToRemind.postValue(id)
-                        }
-                    }
-                }
-            )
-        }
     }
 
     companion object {
