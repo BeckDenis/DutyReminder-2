@@ -42,7 +42,10 @@ class ReminderViewModel(
     private val _message = MutableLiveData<String>()
     val message: LiveData<String> = _message
 
-    private val dateAndTime: Calendar = Calendar.getInstance()
+    private val dateAndTime: Calendar = Calendar.getInstance().apply {
+        set(Calendar.SECOND, 0)
+        set(Calendar.MILLISECOND, 0)
+    }
 
     private var initialRemind: RemindDomainModel? = null
 
@@ -114,13 +117,7 @@ class ReminderViewModel(
     }
 
     private fun invalidateDateAndTimeText() {
-        val year = dateAndTime.get(Calendar.YEAR)
-        val month = dateAndTime.get(Calendar.MONTH).toDateAndTimeString()
-        val dayOfMonth = dateAndTime.get(Calendar.DAY_OF_MONTH).toDateAndTimeString()
-        val hoursOfDay = dateAndTime.get(Calendar.HOUR_OF_DAY).toDateAndTimeString()
-        val minute = dateAndTime.get(Calendar.MINUTE).toDateAndTimeString()
-
-        _pickedDateAndTimeText.postValue("$hoursOfDay:$minute\n$dayOfMonth.$month.$year")
+        _pickedDateAndTimeText.postValue(dateAndTime.toDateAndTimeString())
     }
 
     companion object {

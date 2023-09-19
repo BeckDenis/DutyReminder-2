@@ -23,7 +23,7 @@ class RemindReceiver : BroadcastReceiver() {
             val message = intent.getStringExtra(REMIND_MESSAGE_EXTRA) ?: throw IllegalStateException("message is null")
             RemindNotificationManager(context).showNotification(id, message)
             val remindDao = (context.applicationContext as DutyReminderApp).remindDatabase.reminderDao()
-            Timber.d("deleted id: $id prpr")
+            Timber.d("remind called, id:$id, message:$message prpr")
             remindDao.delete(id)
         }
     }

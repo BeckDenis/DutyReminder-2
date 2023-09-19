@@ -9,10 +9,11 @@ import androidx.lifecycle.viewmodel.CreationExtras
 import denis.beck.dutyreminder_2.DutyReminderApp
 import denis.beck.dutyreminder_2.epoxy.mappers.RemindPresentationMapper
 import denis.beck.dutyreminder_2.epoxy.repositories.RemindRepository
-import denis.beck.dutyreminder_2.models.RemindDomainModel
 import denis.beck.dutyreminder_2.models.RemindPresentationModel
 import denis.beck.dutyreminder_2.utils.SingleLiveEvent
+import denis.beck.dutyreminder_2.utils.tryLaunch
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class MainViewModel(
@@ -26,7 +27,31 @@ class MainViewModel(
     private val _goToRemind = SingleLiveEvent<Long>()
     val goToRemind: LiveData<Long> = _goToRemind
 
-    fun getReminds() {
+    init {
+        listenReminds()
+    }
+
+    private fun listenReminds() {
+        viewModelScope.tryLaunch(
+            doOnLaunch = {
+                remindRepository
+                    .getRemindsByFlow()
+                    .map { reminds ->
+                        remindPresentationMapper
+                            .map(reminds)
+                            .map { remind ->
+                                remind.apply {
+                                    onClickListener = {
+                                        _goToRemind.postValue(id)
+                                    }
+                                }
+                            }
+                    }
+                    .collect { list ->
+                        _data.value = list
+                    }
+            }
+        )
         viewModelScope.launch(Dispatchers.IO) {
             val reminds = remindRepository.getReminds()
             _data.postValue(

@@ -10,6 +10,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.util.Calendar
 import kotlin.time.Duration
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
@@ -31,6 +32,26 @@ fun BroadcastReceiver.goAsync(
             pendingResult.finish()
         }
     }
+}
+
+fun Calendar.toDateAndTimeString(): String {
+    val year = this.get(Calendar.YEAR)
+    val month = this.get(Calendar.MONTH).toDateAndTimeString()
+    val dayOfMonth = this.get(Calendar.DAY_OF_MONTH).toDateAndTimeString()
+    val hoursOfDay = this.get(Calendar.HOUR_OF_DAY).toDateAndTimeString()
+    val minute = this.get(Calendar.MINUTE).toDateAndTimeString()
+
+    return "$hoursOfDay:$minute\n$dayOfMonth.$month.$year"
+}
+
+fun Calendar.toDateAndTimeLogString(): String {
+    val year = this.get(Calendar.YEAR)
+    val month = this.get(Calendar.MONTH).toDateAndTimeString()
+    val dayOfMonth = this.get(Calendar.DAY_OF_MONTH).toDateAndTimeString()
+    val hoursOfDay = this.get(Calendar.HOUR_OF_DAY).toDateAndTimeString()
+    val minute = this.get(Calendar.MINUTE).toDateAndTimeString()
+
+    return "$hoursOfDay:$minute $dayOfMonth.$month.$year"
 }
 
 fun Int.toDateAndTimeString() : String = if (this >= 9) this.toString() else "0$this"
