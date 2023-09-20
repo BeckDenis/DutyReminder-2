@@ -44,6 +44,21 @@ fun Calendar.toDateAndTimeString(): String {
     return "$hoursOfDay:$minute\n$dayOfMonth.$month.$year"
 }
 
+fun Calendar.toDateString(): String {
+    val year = this.get(Calendar.YEAR)
+    val month = this.get(Calendar.MONTH).toDateAndTimeString()
+    val dayOfMonth = this.get(Calendar.DAY_OF_MONTH).toDateAndTimeString()
+
+    return "$dayOfMonth.$month.$year"
+}
+
+fun Calendar.toTimeString(): String {
+    val hoursOfDay = this.get(Calendar.HOUR_OF_DAY).toDateAndTimeString()
+    val minute = this.get(Calendar.MINUTE).toDateAndTimeString()
+
+    return "$hoursOfDay:$minute"
+}
+
 fun Calendar.toDateAndTimeLogString(): String {
     val year = this.get(Calendar.YEAR)
     val month = this.get(Calendar.MONTH).toDateAndTimeString()

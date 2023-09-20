@@ -12,7 +12,8 @@ import denis.beck.dutyreminder_2.epoxy.repositories.RemindRepository
 import denis.beck.dutyreminder_2.models.RemindDomainModel
 import denis.beck.dutyreminder_2.remindManager.RemindManager
 import denis.beck.dutyreminder_2.utils.SingleLiveEvent
-import denis.beck.dutyreminder_2.utils.toDateAndTimeString
+import denis.beck.dutyreminder_2.utils.toDateString
+import denis.beck.dutyreminder_2.utils.toTimeString
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.Calendar
@@ -36,8 +37,14 @@ class ReminderViewModel(
     private val _goBack = SingleLiveEvent<Unit>()
     val goBack: LiveData<Unit> = _goBack
 
-    private val _pickedDateAndTimeText = MutableLiveData<String>()
-    val pickedDateAndTimeText: LiveData<String> = _pickedDateAndTimeText
+    private val _dateTextVisibility = MutableLiveData<Boolean>()
+    val dateTextVisibility: LiveData<Boolean> = _dateTextVisibility
+
+    private val _pickedDateText = MutableLiveData<String>()
+    val pickedDateText: LiveData<String> = _pickedDateText
+
+    private val _pickedTimeText = MutableLiveData<String>()
+    val pickedTimeText: LiveData<String> = _pickedTimeText
 
     private val _message = MutableLiveData<String>()
     val message: LiveData<String> = _message
@@ -123,8 +130,13 @@ class ReminderViewModel(
         invalidateDateAndTimeText()
     }
 
+    fun onAnyWeekItemSelected(anySelected: Boolean) {
+        _dateTextVisibility.value = !anySelected
+    }
+
     private fun invalidateDateAndTimeText() {
-        _pickedDateAndTimeText.postValue(dateAndTime.toDateAndTimeString())
+        _pickedDateText.postValue(dateAndTime.toDateString())
+        _pickedTimeText.postValue(dateAndTime.toTimeString())
     }
 
     companion object {

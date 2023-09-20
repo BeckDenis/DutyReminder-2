@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="WeekItem">
+        <item name="android:background">@drawable/week_item_baclground_color_state_list</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:layout_margin">4dp</item>
+        <item name="android:paddingVertical">8dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textColor">@color/week_item_text_color_state_list</item>
+    </style>
+</resources>

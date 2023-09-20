@@ -11,7 +11,7 @@ import android.widget.TimePicker
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import denis.beck.dutyreminder_2.databinding.FragmentNewReminderBinding
+import denis.beck.dutyreminder_2.databinding.FragmentReminderBinding
 import denis.beck.dutyreminder_2.fragments.pickers.date.RemindDatePickerDialog
 import denis.beck.dutyreminder_2.fragments.pickers.time.RemindTimePickerDialog
 
@@ -34,7 +34,7 @@ class ReminderFragment :
         }
     }
 
-    private var _binding: FragmentNewReminderBinding? = null
+    private var _binding: FragmentReminderBinding? = null
     private val binding get() = _binding!!
 
     private val viewModel by viewModels<ReminderViewModel> { ReminderViewModel.Factory }
@@ -43,7 +43,7 @@ class ReminderFragment :
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentNewReminderBinding.inflate(inflater, container, false)
+        _binding = FragmentReminderBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -54,7 +54,7 @@ class ReminderFragment :
         binding.setup()
     }
 
-    private fun FragmentNewReminderBinding.setup() {
+    private fun FragmentReminderBinding.setup() {
         timePickerButton.setOnClickListener {
             viewModel.onTimePickerButtonClick()
         }
@@ -71,6 +71,9 @@ class ReminderFragment :
         deleteButton.setOnClickListener {
             viewModel.onDeleteButtonClick()
         }
+        weekView.setOnAnySelectedStateListener { anySelected ->
+            viewModel.onAnyWeekItemSelected(anySelected)
+        }
     }
 
     private fun ReminderViewModel.setup() {
@@ -83,11 +86,17 @@ class ReminderFragment :
         goBack.observe(viewLifecycleOwner) {
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
-        pickedDateAndTimeText.observe(viewLifecycleOwner) { dateAndTime ->
-            binding.pickedTimeAndDateText.text = dateAndTime
+        pickedDateText.observe(viewLifecycleOwner) { date ->
+            binding.pickedDateText.text = date
+        }
+        pickedTimeText.observe(viewLifecycleOwner) { time ->
+            binding.pickedTimeText.text = time
         }
         message.observe(viewLifecycleOwner) { message ->
             binding.messageTextField.setText(message)
+        }
+        dateTextVisibility.observe(viewLifecycleOwner) { isVisible ->
+            binding.dateContainer.isVisible = isVisible
         }
     }
 
