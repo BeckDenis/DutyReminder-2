@@ -11,6 +11,10 @@ import java.util.Calendar
 
 class RemindTimePickerDialog : DialogFragment() {
 
+    companion object {
+        fun show(fragmentManager: FragmentManager) = RemindTimePickerDialog().show(fragmentManager, "timePicker")
+    }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         // Use the current time as the default values for the picker
         val c = Calendar.getInstance()
@@ -19,6 +23,4 @@ class RemindTimePickerDialog : DialogFragment() {
 
         return TimePickerDialog(activity, parentFragment as OnTimeSetListener, hour, minute, DateFormat.is24HourFormat(activity))
     }
-
-    fun show(fragmentManager: FragmentManager) = this.show(fragmentManager, "timePicker")
 }

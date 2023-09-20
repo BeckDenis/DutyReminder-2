@@ -9,6 +9,11 @@ import androidx.fragment.app.FragmentManager
 import java.util.Calendar
 
 class RemindDatePickerDialog : DialogFragment() {
+
+    companion object {
+        fun show(fragmentManager: FragmentManager) = RemindDatePickerDialog().show(fragmentManager, "datePicker")
+    }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         // Use the current time as the default values for the picker
         val c = Calendar.getInstance()
@@ -19,6 +24,4 @@ class RemindDatePickerDialog : DialogFragment() {
         // Create a new instance of TimePickerDialog and return it
         return DatePickerDialog(requireContext(), parentFragment as OnDateSetListener, year, month, day)
     }
-
-    fun show(fragmentManager: FragmentManager) = this.show(fragmentManager, "datePicker")
 }

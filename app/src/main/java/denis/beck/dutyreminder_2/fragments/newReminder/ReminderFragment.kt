@@ -78,10 +78,10 @@ class ReminderFragment :
 
     private fun ReminderViewModel.setup() {
         showDatePicker.observe(viewLifecycleOwner) {
-            RemindDatePickerDialog().show(childFragmentManager)
+            RemindDatePickerDialog.show(childFragmentManager)
         }
         showTimePicker.observe(viewLifecycleOwner) {
-            RemindTimePickerDialog().show(childFragmentManager)
+            RemindTimePickerDialog.show(childFragmentManager)
         }
         goBack.observe(viewLifecycleOwner) {
             requireActivity().onBackPressedDispatcher.onBackPressed()
