@@ -5,6 +5,7 @@ import android.app.DatePickerDialog.OnDateSetListener
 import android.app.Dialog
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentManager
 import java.util.Calendar
 
 class RemindDatePickerDialog : DialogFragment() {
@@ -18,4 +19,6 @@ class RemindDatePickerDialog : DialogFragment() {
         // Create a new instance of TimePickerDialog and return it
         return DatePickerDialog(requireContext(), parentFragment as OnDateSetListener, year, month, day)
     }
+
+    fun show(fragmentManager: FragmentManager) = this.show(fragmentManager, "datePicker")
 }

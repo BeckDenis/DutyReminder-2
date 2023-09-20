@@ -31,7 +31,6 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // viewModel.getReminds()
         mainController = RemindController()
         viewModel.setup()
         binding.setup()

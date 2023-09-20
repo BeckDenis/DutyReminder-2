@@ -6,6 +6,7 @@ import android.app.TimePickerDialog.OnTimeSetListener
 import android.os.Bundle
 import android.text.format.DateFormat
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentManager
 import java.util.Calendar
 
 class RemindTimePickerDialog : DialogFragment() {
@@ -18,4 +19,6 @@ class RemindTimePickerDialog : DialogFragment() {
 
         return TimePickerDialog(activity, parentFragment as OnTimeSetListener, hour, minute, DateFormat.is24HourFormat(activity))
     }
+
+    fun show(fragmentManager: FragmentManager) = this.show(fragmentManager, "timePicker")
 }
