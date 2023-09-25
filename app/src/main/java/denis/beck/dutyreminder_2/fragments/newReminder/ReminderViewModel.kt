@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.AP
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
 import denis.beck.dutyreminder_2.DutyReminderApp
+import denis.beck.dutyreminder_2.epoxy.models.DayOfWeek
 import denis.beck.dutyreminder_2.epoxy.repositories.RemindRepository
 import denis.beck.dutyreminder_2.models.RemindDomainModel
 import denis.beck.dutyreminder_2.remindManager.RemindManager
@@ -28,6 +29,8 @@ class ReminderViewModel(
     private val remindRepository: RemindRepository,
 ) : ViewModel() {
 
+    // Надо заменить отдельные на передачу Remind или вообще на стейт
+
     private val _showDatePicker = SingleLiveEvent<Unit>()
     val showDatePicker: LiveData<Unit> = _showDatePicker
 
@@ -36,6 +39,9 @@ class ReminderViewModel(
 
     private val _goBack = SingleLiveEvent<Unit>()
     val goBack: LiveData<Unit> = _goBack
+
+    private val _setSelectedDaysOfWeek = SingleLiveEvent<Set<DayOfWeek>>()
+    val setSelectedDaysOfWeek: LiveData<Set<DayOfWeek>> = _setSelectedDaysOfWeek
 
     private val _dateTextVisibility = MutableLiveData<Boolean>()
     val dateTextVisibility: LiveData<Boolean> = _dateTextVisibility
@@ -54,6 +60,7 @@ class ReminderViewModel(
         set(Calendar.MILLISECOND, 0)
     }
 
+    // Можно оставить только id
     private var initialRemind: RemindDomainModel? = null
 
     val timestamp: Long
@@ -68,6 +75,7 @@ class ReminderViewModel(
                 this@ReminderViewModel.initialRemind = remind
                 dateAndTime.timeInMillis = remind.timestamp
                 _message.postValue(remind.message)
+                _setSelectedDaysOfWeek.postValue(remind.selectedDayOfWeeks)
             }
             invalidateDateAndTimeText()
         }
@@ -88,16 +96,16 @@ class ReminderViewModel(
         _showTimePicker.value = Unit
     }
 
-    fun onSaveButtonClick(timestamp: Long, message: String) {
+    fun onSaveButtonClick(timestamp: Long, message: String, selectedDayOfWeeks: Set<DayOfWeek>) {
         val newRemind = RemindDomainModel(
             timestamp = timestamp,
             message = message,
+            selectedDayOfWeeks = selectedDayOfWeeks,
         )
         viewModelScope.launch(Dispatchers.IO) {
             initialRemind?.let { oldRemind ->
                 remindManager.updateReminder(
                     newRemind = newRemind.copy(id = oldRemind.id),
-                    oldRemind = oldRemind,
                 )
             } ?: remindManager.setReminder(newRemind)
         }
@@ -130,8 +138,8 @@ class ReminderViewModel(
         invalidateDateAndTimeText()
     }
 
-    fun onAnyWeekItemSelected(anySelected: Boolean) {
-        _dateTextVisibility.value = !anySelected
+    fun onWeekDaySelected(selectedDayOfWeeks: Set<DayOfWeek>) {
+        _dateTextVisibility.value = selectedDayOfWeeks.isEmpty()
     }
 
     private fun invalidateDateAndTimeText() {

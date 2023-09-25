@@ -21,6 +21,7 @@ class RemindPresentationMapper {
             id = this.id,
             time = formatTime(),
             message = this.message,
+            selectedDayOfWeeks = selectedDayOfWeeks,
         ).apply {
             this.onClickListener = {
                 onClickListener.invoke(this.id)

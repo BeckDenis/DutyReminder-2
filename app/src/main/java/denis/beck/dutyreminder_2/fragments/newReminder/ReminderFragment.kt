@@ -64,15 +64,16 @@ class ReminderFragment :
         saveButton.setOnClickListener {
             viewModel.onSaveButtonClick(
                 viewModel.timestamp,
-                binding.messageTextField.text.toString()
+                binding.messageTextField.text.toString(),
+                binding.weekView.selectedDayOfWeeks
             )
         }
         deleteButton.isVisible = viewModel.state == RemindViewState.CHANGE
         deleteButton.setOnClickListener {
             viewModel.onDeleteButtonClick()
         }
-        weekView.setOnAnySelectedStateListener { anySelected ->
-            viewModel.onAnyWeekItemSelected(anySelected)
+        weekView.setOnWeekDaySelectedListener { selectedWeekDays ->
+            viewModel.onWeekDaySelected(selectedWeekDays)
         }
     }
 
@@ -97,6 +98,9 @@ class ReminderFragment :
         }
         dateTextVisibility.observe(viewLifecycleOwner) { isVisible ->
             binding.dateContainer.isVisible = isVisible
+        }
+        setSelectedDaysOfWeek.observe(viewLifecycleOwner) { selectedWeekDays ->
+            binding.weekView.selectedDayOfWeeks = selectedWeekDays
         }
     }
 

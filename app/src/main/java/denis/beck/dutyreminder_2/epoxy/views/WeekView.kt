@@ -7,16 +7,37 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import denis.beck.dutyreminder_2.R
 import denis.beck.dutyreminder_2.databinding.WeekLayoutBinding
+import denis.beck.dutyreminder_2.epoxy.models.DayOfWeek
 
 class WeekView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, defStyleRes: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr, defStyleRes) {
 
     private val binding: WeekLayoutBinding = WeekLayoutBinding.inflate(LayoutInflater.from(context), this, true)
-    private val weekModels =
-        setOf(MONDAY(), TUESDAY(), WEDNESDAY(), THURSDAY(), FRIDAY(), SATURDAY(), SUNDAY())
+    private val weekModels = setOf(
+        WeekDayView.MONDAY(),
+        WeekDayView.TUESDAY(),
+        WeekDayView.WEDNESDAY(),
+        WeekDayView.THURSDAY(),
+        WeekDayView.FRIDAY(),
+        WeekDayView.SATURDAY(),
+        WeekDayView.SUNDAY()
+    )
 
-    private var anySelectedStateListener: ((Boolean) -> Unit) = {}
+    private var weekDaySelectedListener: ((Set<DayOfWeek>) -> Unit) = {}
+
+    var selectedDayOfWeeks: Set<DayOfWeek>
+        set(value) {
+            weekModels.forEach { model ->
+                if (value.contains(model.dayOfWeek)) {
+                    model.view.isSelected = true
+                }
+            }
+        }
+        get() = weekModels
+            .filter { it.view.isSelected }
+            .map { it.dayOfWeek }
+            .toSet()
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
@@ -31,36 +52,33 @@ class WeekView @JvmOverloads constructor(
         }
     }
 
-    private fun TextView.bindWeekItemView(weekDay: WeekDay) {
+    fun setOnWeekDaySelectedListener(listener: (Set<DayOfWeek>) -> Unit) {
+        weekDaySelectedListener = listener
+    }
+
+    private fun TextView.bindWeekItemView(weekDay: WeekDayView) {
         tag = weekDay.abbreviation
         text = weekDay.abbreviation
         setOnClickListener {
-            it.isSelected = !it.isSelected
+            isSelected = !isSelected
             updateSelectedState()
         }
         weekDay.view = this
     }
 
     private fun updateSelectedState() {
-        weekModels
-            .map { it.view }
-            .any { it.isSelected }
-            .also(anySelectedStateListener::invoke)
+        weekDaySelectedListener.invoke(selectedDayOfWeeks)
     }
 
-    fun setOnAnySelectedStateListener(listener: (Boolean) -> Unit) {
-        anySelectedStateListener = listener
-    }
-
-    abstract class WeekDay(val abbreviation: String) {
+    private sealed class WeekDayView(val abbreviation: String, val dayOfWeek: DayOfWeek) {
         lateinit var view: TextView
-    }
 
-    class MONDAY : WeekDay("Mon")
-    class TUESDAY : WeekDay("Tue")
-    class WEDNESDAY : WeekDay("Wed")
-    class THURSDAY : WeekDay("Thu")
-    class FRIDAY : WeekDay("Fri")
-    class SATURDAY : WeekDay("Sat")
-    class SUNDAY : WeekDay("Sun")
+        class MONDAY : WeekDayView("Mon", DayOfWeek.MONDAY)
+        class TUESDAY : WeekDayView("Tue", DayOfWeek.TUESDAY)
+        class WEDNESDAY : WeekDayView("Wed", DayOfWeek.WEDNESDAY)
+        class THURSDAY : WeekDayView("Thu", DayOfWeek.THURSDAY)
+        class FRIDAY : WeekDayView("Fri", DayOfWeek.FRIDAY)
+        class SATURDAY : WeekDayView("Sat", DayOfWeek.SATURDAY)
+        class SUNDAY : WeekDayView("Sun", DayOfWeek.SUNDAY)
+    }
 }
