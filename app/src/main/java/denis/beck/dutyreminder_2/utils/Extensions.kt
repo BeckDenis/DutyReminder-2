@@ -34,8 +34,7 @@ fun BroadcastReceiver.goAsync(
     }
 }
 
-fun Int.toDateAndTimeString() : String = if (this >= 9) this.toString() else "0$this"
-fun Duration.toDateAndTimeString(unit: DurationUnit) : String = this.toInt(unit).toDateAndTimeString()
+fun Int.toDateAndTimeString() : String = if (this > 9) this.toString() else "0$this"
 
 inline fun <reified T : Parcelable> Bundle.parcelable(key: String): T? = when {
     Build.VERSION.SDK_INT >= 33 -> getParcelable(key, T::class.java)

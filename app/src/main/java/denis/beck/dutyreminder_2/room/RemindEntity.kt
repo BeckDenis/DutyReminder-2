@@ -17,6 +17,6 @@ data class RemindEntity(
         id = id,
         timestamp = timestamp,
         message = message,
-        selectedDayOfWeeks = selectedDayOfWeeks,
+        selectedDaysOfWeek = selectedDayOfWeeks,
     )
 }

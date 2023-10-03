@@ -53,7 +53,7 @@ class RemindManager(
             action = RemindReceiver.REMIND_ACTION
             putExtra(RemindReceiver.REMIND_ID_EXTRA, remindDomainModel.id)
             putExtra(RemindReceiver.REMIND_MESSAGE_EXTRA, remindDomainModel.message)
-            putExtra(RemindReceiver.REMIND_IS_PERIODICAL, remindDomainModel.selectedDayOfWeeks.isNotEmpty())
+            putExtra(RemindReceiver.REMIND_IS_PERIODICAL, remindDomainModel.selectedDaysOfWeek.isNotEmpty())
         }
 
         return PendingIntent

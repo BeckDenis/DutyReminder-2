@@ -7,22 +7,22 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
 import denis.beck.dutyreminder_2.DutyReminderApp
-import denis.beck.dutyreminder_2.epoxy.mappers.RemindPresentationMapper
+import denis.beck.dutyreminder_2.epoxy.mappers.MainEpoxyMapper
+import denis.beck.dutyreminder_2.epoxy.mappers.RemindEpoxyDataModelMapper
+import denis.beck.dutyreminder_2.epoxy.models.EpoxyDataModel
+import denis.beck.dutyreminder_2.epoxy.models.RemindEpoxyDataModel
 import denis.beck.dutyreminder_2.epoxy.repositories.RemindRepository
-import denis.beck.dutyreminder_2.models.RemindPresentationModel
 import denis.beck.dutyreminder_2.utils.SingleLiveEvent
 import denis.beck.dutyreminder_2.utils.tryLaunch
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
 
 class MainViewModel(
     private val remindRepository: RemindRepository,
-    private val remindPresentationMapper: RemindPresentationMapper,
+    private val mainEpoxyMapper: MainEpoxyMapper,
 ) : ViewModel() {
 
-    private val _data = MutableLiveData<List<RemindPresentationModel>>()
-    val data: LiveData<List<RemindPresentationModel>> = _data
+    private val _data = MutableLiveData<List<EpoxyDataModel>>()
+    val data: LiveData<List<EpoxyDataModel>> = _data
 
     private val _goToRemind = SingleLiveEvent<Long>()
     val goToRemind: LiveData<Long> = _goToRemind
@@ -37,11 +37,14 @@ class MainViewModel(
                 remindRepository
                     .getRemindsByFlow()
                     .map { reminds ->
-                        remindPresentationMapper
+                        RemindEpoxyDataModelMapper()
                             .map(
                                 models = reminds,
-                                onClickListener = { _goToRemind.postValue(it) })
+                                onClickListener = { _goToRemind.postValue(it) }
+                            )
                     }
+                    .map { it.sortedBy(RemindEpoxyDataModel::timestamp) }
+                    .map(mainEpoxyMapper::map)
                     .collect { list ->
                         _data.value = list
                     }
@@ -59,7 +62,7 @@ class MainViewModel(
                 val application = checkNotNull(extras[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY]) as DutyReminderApp
                 return MainViewModel(
                     RemindRepository(application.remindDatabase.reminderDao()),
-                    RemindPresentationMapper(),
+                    MainEpoxyMapper(),
                 ) as T
             }
         }

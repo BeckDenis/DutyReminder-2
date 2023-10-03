@@ -1,5 +1,6 @@
 package denis.beck.dutyreminder_2.utils
 
+import java.lang.Math.abs
 import java.util.Calendar
 
 fun Calendar.toDateAndTimeString(): String {
@@ -49,4 +50,40 @@ fun Calendar.setNextDayOfWeek(dayOfWeek: Int) {
             set(Calendar.WEEK_OF_YEAR, get(Calendar.WEEK_OF_YEAR) + 1)
         }
     }
+}
+
+fun Calendar.getPreviousMonthCalendar(monthCount: Int = 1): Calendar {
+    val yearsCount = monthCount / 12
+    val newCalendar = Calendar.getInstance()
+    val currentMonth = this.get(Calendar.MONTH)
+    var newMonth = currentMonth - (monthCount % 12)
+    if (newMonth < 0) {
+        newMonth = 12 - kotlin.math.abs(newMonth)
+        val newYear = this.get(Calendar.YEAR) - 1
+        newCalendar.set(Calendar.YEAR, newYear)
+    }
+    newCalendar.set(Calendar.YEAR, newCalendar.get(Calendar.YEAR) - yearsCount)
+    return newCalendar.apply { set(Calendar.MONTH, newMonth) }
+}
+
+fun Calendar.getNextMonthCalendar(monthCount: Int = 1): Calendar {
+    val yearsCount = monthCount / 12
+    val newCalendar = Calendar.getInstance()
+    val currentMonth = this.get(Calendar.MONTH)
+    var newMonth = currentMonth + (monthCount % 12)
+    if (newMonth > 11) {
+        newMonth -= 12
+        val newYear = this.get(Calendar.YEAR) + 1
+        newCalendar.set(Calendar.YEAR, newYear)
+    }
+    newCalendar.set(Calendar.YEAR, newCalendar.get(Calendar.YEAR) + yearsCount)
+    return newCalendar.apply { set(Calendar.MONTH, newMonth) }
+}
+
+fun Calendar.setFirstDayOfMonth() {
+    set(Calendar.DAY_OF_MONTH, 1)
+    set(Calendar.HOUR_OF_DAY, 0)
+    set(Calendar.MINUTE, 0)
+    set(Calendar.SECOND, 0)
+    set(Calendar.MILLISECOND, 0)
 }

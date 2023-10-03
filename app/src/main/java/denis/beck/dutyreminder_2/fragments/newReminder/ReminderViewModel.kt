@@ -75,7 +75,7 @@ class ReminderViewModel(
                 this@ReminderViewModel.initialRemind = remind
                 dateAndTime.timeInMillis = remind.timestamp
                 _message.postValue(remind.message)
-                _setSelectedDaysOfWeek.postValue(remind.selectedDayOfWeeks)
+                _setSelectedDaysOfWeek.postValue(remind.selectedDaysOfWeek)
             }
             invalidateDateAndTimeText()
         }
@@ -100,7 +100,7 @@ class ReminderViewModel(
         val newRemind = RemindDomainModel(
             timestamp = timestamp,
             message = message,
-            selectedDayOfWeeks = selectedDayOfWeeks,
+            selectedDaysOfWeek = selectedDayOfWeeks,
         )
         viewModelScope.launch(Dispatchers.IO) {
             initialRemind?.let { oldRemind ->

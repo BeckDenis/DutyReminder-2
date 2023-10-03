@@ -6,20 +6,18 @@ import com.airbnb.epoxy.EpoxyModelClass
 import com.airbnb.epoxy.EpoxyModelWithHolder
 import denis.beck.dutyreminder_2.R
 import denis.beck.dutyreminder_2.epoxy.KotlinEpoxyHolder
-import denis.beck.dutyreminder_2.models.RemindDomainModel
-import denis.beck.dutyreminder_2.models.RemindPresentationModel
 
 @EpoxyModelClass
-abstract class RemindEpoxyModel(private val remindPresentationModel: RemindPresentationModel) : EpoxyModelWithHolder<RemindEpoxyModel.Holder>() {
+abstract class RemindEpoxyModel(private val remindModel: RemindEpoxyDataModel) : EpoxyModelWithHolder<RemindEpoxyModel.Holder>() {
 
     override fun getDefaultLayout(): Int = R.layout.remind_item
 
     override fun bind(holder: Holder) {
         super.bind(holder)
         with(holder) {
-            title.text = remindPresentationModel.id.toString()
-            description.text = remindPresentationModel.message
-            time.text = remindPresentationModel.time
+            title.text = remindModel.id.toString()
+            description.text = remindModel.message
+            time.text = remindModel.timeText
         }
     }
 
@@ -31,7 +29,7 @@ abstract class RemindEpoxyModel(private val remindPresentationModel: RemindPrese
         override fun bindView(itemView: View) {
             super.bindView(itemView)
             itemView.setOnClickListener {
-                remindPresentationModel.onClickListener.invoke()
+                remindModel.onClickListener.invoke()
             }
         }
     }
