@@ -1,11 +1,8 @@
 package denis.beck.dutyreminder_2
 
-import android.Manifest
 import android.app.Application
-import android.content.pm.PackageManager
-import androidx.core.content.ContextCompat
-import androidx.room.Room
-import denis.beck.dutyreminder_2.room.RemindDatabase
+import denis.beck.reminder.RemindDatabaseSingleton
+import denis.beck.reminder.data.room.RemindDatabase
 import timber.log.Timber
 
 class DutyReminderApp : Application() {
@@ -18,10 +15,7 @@ class DutyReminderApp : Application() {
             Timber.plant(Timber.DebugTree())
         }
 
-        remindDatabase = Room.databaseBuilder(
-            applicationContext,
-            RemindDatabase::class.java, "reminder database"
-        ).build()
+        RemindDatabaseSingleton.init(applicationContext)
     }
 
 

@@ -1,0 +1,22 @@
+package denis.beck.reminder.data.room
+
+import RemindDomainModel
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import denis.beck.common.DayOfWeek
+
+@Entity(tableName = "remind")
+data class RemindEntity(
+    @PrimaryKey(autoGenerate = true) val id: Long,
+    @ColumnInfo val timestamp: Long,
+    @ColumnInfo val message: String,
+    @ColumnInfo val selectedDayOfWeeks: Set<DayOfWeek>
+) {
+    fun toDomain() = RemindDomainModel(
+        id = id,
+        timestamp = timestamp,
+        message = message,
+        selectedDaysOfWeek = selectedDayOfWeeks,
+    )
+}

@@ -1,11 +1,5 @@
 package denis.beck.dutyreminder_2.epoxy.mappers
 
-import denis.beck.dutyreminder_2.models.RemindDomainModel
-import denis.beck.dutyreminder_2.models.RemindPresentationModel
-import denis.beck.dutyreminder_2.utils.toDateAndTimeString
-import java.util.Calendar
-import java.util.Date
-
 // class RemindPresentationMapper {
 //     private val calendar = Calendar.getInstance()
 //
