@@ -9,16 +9,16 @@ import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import denis.beck.features.reminderlistui.databinding.FragmentMainBinding
 import denis.beck.navigation.Navigator
+import denis.beck.navigation.NavigatorSingleton
 import denis.beck.reminder_list_ui.epoxy.RemindController
 
 class MainFragment : Fragment() {
 
-    // Тут инжект должен быть
-    private lateinit var navigation: Navigator
-
     private var _binding: FragmentMainBinding? = null
+
     private val binding get() = _binding!!
 
+    private var navigation = NavigatorSingleton.instance
     private val viewModel by viewModels<MainViewModel> { MainViewModel.Factory }
     private lateinit var mainController : RemindController
 
