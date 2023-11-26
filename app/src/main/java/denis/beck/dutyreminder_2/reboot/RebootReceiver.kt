@@ -5,13 +5,13 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.Intent.ACTION_REBOOT
-import denis.beck.common.goAsync
+import denis.beck.common.extensions.goAsync
 import denis.beck.dutyreminder_2.DutyReminderApp
 
 class RebootReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) = goAsync {
         if (intent?.action == ACTION_REBOOT && context != null) {
-            val remindDao = (context.applicationContext as DutyReminderApp).remindDatabase.reminderDao()
+            val remindDao = (context.applicationContext as DutyReminderApp).applicationGraph.remindDao()
             val remindRepository = denis.beck.reminder.RemindRepository(remindDao)
             val reminds = remindRepository.getReminds()
             val currentTime = System.currentTimeMillis()

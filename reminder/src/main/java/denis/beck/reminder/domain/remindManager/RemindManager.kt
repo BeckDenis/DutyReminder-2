@@ -5,7 +5,8 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import denis.beck.common.toDateAndTimeLogString
+import denis.beck.common.extensions.toDateAndTimeLogString
+import denis.beck.reminder.RemindReceiver
 import denis.beck.reminder.RemindRepository
 import timber.log.Timber
 import java.util.Calendar

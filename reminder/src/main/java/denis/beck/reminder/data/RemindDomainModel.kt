@@ -1,9 +1,9 @@
 import android.os.Parcelable
-import denis.beck.common.ExtendedTimeStamp
-import denis.beck.common.setNextDayOfWeek
-import denis.beck.common.toDateAndTimeString
+import denis.beck.common.models.ExtendedTimeStamp
+import denis.beck.common.extensions.setNextDayOfWeek
+import denis.beck.common.extensions.toDateAndTimeString
 import denis.beck.reminder.data.RemindEpoxyDataModel
-import denis.beck.common.DayOfWeek
+import denis.beck.common.models.DayOfWeek
 import kotlinx.parcelize.Parcelize
 import java.util.Calendar
 

@@ -31,7 +31,7 @@
         <receiver
             android:enabled="true"
             android:exported="false"
-            android:name="denis.beck.reminder.domain.remindManager.RemindReceiver"/>
+            android:name="denis.beck.reminder.RemindReceiver"/>
         <receiver
             android:enabled="true"
             android:exported="false"

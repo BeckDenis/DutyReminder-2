@@ -6,17 +6,30 @@ import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.add
 import androidx.fragment.app.commit
-import denis.beck.reminder_list_ui.MainFragment
+import denis.beck.dutyreminder_2.di.DaggerActivityComponent
+import denis.beck.login_ui.di.LoginDependencies
+import denis.beck.login_ui.di.LoginDependenciesProvider
+import denis.beck.preferences.SharedPreferencesManager
 
-class MainActivity : AppCompatActivity() {
+class MainActivity :
+    AppCompatActivity(),
+    LoginDependenciesProvider {
+
+    private val component = DaggerActivityComponent.factory().create((applicationContext as DutyReminderApp).applicationGraph)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val prefs = SharedPreferencesManager(this)
+
         supportFragmentManager.commit {
-            add<MainFragment>(R.id.fragment_container)
+            if (prefs.getAuthorized()) {
+                // add<MainFragment>(R.id.fragment_container)
+            } else {
+                component.navigator().navigateToLogin(supportFragmentManager)
+            }
             addToBackStack(null)
         }
 
@@ -31,7 +44,7 @@ class MainActivity : AppCompatActivity() {
                 requestPermissions(arrayOf(permission), 0)
             }
         }
-
     }
 
+    override fun loginDependencies(): LoginDependencies = component
 }

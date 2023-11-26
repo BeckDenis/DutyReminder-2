@@ -51,6 +51,9 @@ dependencies {
     api("androidx.room:room-ktx:2.5.2")
     ksp("androidx.room:room-compiler:2.5.2")
 
+    implementation("com.google.dagger:dagger:2.48")
+    ksp("com.google.dagger:dagger-compiler:2.48")
+
     implementation("com.jakewharton.timber:timber:5.0.1")
 
     implementation(project(":epoxy"))

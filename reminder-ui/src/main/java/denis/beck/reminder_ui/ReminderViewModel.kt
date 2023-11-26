@@ -8,13 +8,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
-import denis.beck.common.SingleLiveEvent
-import denis.beck.common.toDateString
-import denis.beck.common.toTimeString
+import denis.beck.common.liveData.SingleLiveEvent
+import denis.beck.common.extensions.toDateString
+import denis.beck.common.extensions.toTimeString
 import denis.beck.reminder.domain.remindManager.RemindManager
-import denis.beck.reminder.RemindDatabaseSingleton
 import denis.beck.reminder.RemindRepository
-import denis.beck.common.DayOfWeek
+import denis.beck.common.models.DayOfWeek
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.Calendar
@@ -25,7 +24,7 @@ enum class RemindViewState {
 }
 
 class ReminderViewModel(
-    private val remindManager: denis.beck.reminder.domain.remindManager.RemindManager,
+    private val remindManager: RemindManager,
     private val remindRepository: RemindRepository,
 ) : ViewModel() {
 

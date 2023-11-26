@@ -4,7 +4,7 @@ import RemindDomainModel
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import denis.beck.common.DayOfWeek
+import denis.beck.common.models.DayOfWeek
 
 @Entity(tableName = "remind")
 data class RemindEntity(

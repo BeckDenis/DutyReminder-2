@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
-import denis.beck.common.SingleLiveEvent
-import denis.beck.common.tryLaunch
+import denis.beck.common.liveData.SingleLiveEvent
+import denis.beck.common.extensions.tryLaunch
 import denis.beck.reminder.RemindDatabaseSingleton
 import denis.beck.reminder.RemindEpoxyDataModelMapper
 import denis.beck.reminder.RemindRepository

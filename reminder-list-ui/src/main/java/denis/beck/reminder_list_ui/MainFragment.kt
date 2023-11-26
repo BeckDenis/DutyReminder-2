@@ -18,7 +18,7 @@ class MainFragment : Fragment() {
 
     private val binding get() = _binding!!
 
-    private var navigation = NavigatorSingleton.instance
+    // private var navigation = NavigatorSingleton.instance
     private val viewModel by viewModels<MainViewModel> { MainViewModel.Factory }
     private lateinit var mainController : RemindController
 
@@ -52,6 +52,10 @@ class MainFragment : Fragment() {
     }
 
     private fun openRemindFragment(remindId: Long? = null) {
-        navigation.navigateToReminder(parentFragmentManager, remindId)
+        // navigation.navigateToReminder(parentFragmentManager, remindId)
+    }
+
+    companion object {
+        fun newInstance() = MainFragment()
     }
 }

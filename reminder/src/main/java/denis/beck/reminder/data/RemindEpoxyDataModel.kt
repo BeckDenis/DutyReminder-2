@@ -1,6 +1,6 @@
 package denis.beck.reminder.data
 
-import denis.beck.common.ExtendedTimeStamp
+import denis.beck.common.models.ExtendedTimeStamp
 import denis.beck.epoxy.EpoxyDataModel
 
 data class RemindEpoxyDataModel(

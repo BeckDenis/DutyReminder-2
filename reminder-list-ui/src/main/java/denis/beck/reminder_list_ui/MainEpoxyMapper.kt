@@ -1,7 +1,7 @@
 package denis.beck.reminder_list_ui
 
-import denis.beck.common.ExtendedTimeStamp
-import denis.beck.common.DayOfWeek
+import denis.beck.common.models.ExtendedTimeStamp
+import denis.beck.common.models.DayOfWeek
 import denis.beck.reminder_list_ui.epoxy.DateEpoxyDataModel
 import java.util.Calendar
 
@@ -10,8 +10,7 @@ class MainEpoxyMapper {
         val calendar = Calendar.getInstance()
         val resultList = mutableListOf<denis.beck.epoxy.EpoxyDataModel>()
 
-        // ToDo хуйня какая-то, надо понять какой id раньше стоял
-        var id = 0
+        var id = 10000
         var previousModel = ExtendedTimeStamp()
         models
             .forEach { remind ->

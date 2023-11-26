@@ -58,13 +58,18 @@ dependencies {
     implementation("androidx.room:room-ktx:2.5.2")
     ksp("androidx.room:room-compiler:2.5.2")
 
+    implementation("com.google.dagger:dagger:2.48")
+    ksp("com.google.dagger:dagger-compiler:2.48")
+
     implementation("com.google.android.material:material:1.9.0")
     implementation("com.jakewharton.timber:timber:5.0.1")
 
-    implementation(project(":reminder-list-ui"))
     implementation(project(":navigation"))
     implementation(project(":reminder"))
     implementation(project(":reminder-ui"))
     implementation(project(":reminder-list-ui"))
+    implementation(project(":login-ui"))
     implementation(project(":common"))
+    implementation(project(":preferences"))
+    implementation(project(":notifications"))
 }

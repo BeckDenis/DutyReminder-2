@@ -1,7 +1,7 @@
 package denis.beck.reminder.data.room
 
 import androidx.room.TypeConverter
-import denis.beck.common.DayOfWeek
+import denis.beck.common.models.DayOfWeek
 
 class Converters {
     @TypeConverter

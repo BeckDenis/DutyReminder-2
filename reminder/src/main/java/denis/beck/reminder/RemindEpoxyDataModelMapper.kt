@@ -1,10 +1,10 @@
 package denis.beck.reminder
 
 import RemindDomainModel
-import denis.beck.common.getNextMonthCalendar
-import denis.beck.common.getPreviousMonthCalendar
-import denis.beck.common.setFirstDayOfMonth
-import denis.beck.common.setNextDayOfWeek
+import denis.beck.common.extensions.getNextMonthCalendar
+import denis.beck.common.extensions.getPreviousMonthCalendar
+import denis.beck.common.extensions.setFirstDayOfMonth
+import denis.beck.common.extensions.setNextDayOfWeek
 import java.util.Calendar
 
 class RemindEpoxyDataModelMapper {

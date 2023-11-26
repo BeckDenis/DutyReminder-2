@@ -47,7 +47,6 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-common-java8:2.6.2")
 
     implementation(project(":pickers"))
-
     implementation(project(":reminder"))
     implementation(project(":common"))
     implementation(project(":common-ui"))

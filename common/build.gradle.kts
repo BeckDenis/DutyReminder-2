@@ -39,4 +39,5 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
     implementation("com.jakewharton.timber:timber:5.0.1")
+    implementation("com.google.dagger:dagger:2.48")
 }

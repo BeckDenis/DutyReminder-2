@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import android.widget.TextView
-import denis.beck.common.DayOfWeek
+import denis.beck.common.models.DayOfWeek
 import denis.beck.common_ui.databinding.WeekLayoutBinding
 
 class WeekView @JvmOverloads constructor(
