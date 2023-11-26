@@ -2,13 +2,16 @@ package denis.beck.reminder_list_ui
 
 import denis.beck.common.models.ExtendedTimeStamp
 import denis.beck.common.models.DayOfWeek
+import denis.beck.epoxy.EpoxyDataModel
+import denis.beck.reminder.data.RemindEpoxyDataModel
 import denis.beck.reminder_list_ui.epoxy.DateEpoxyDataModel
 import java.util.Calendar
+import javax.inject.Inject
 
-class MainEpoxyMapper {
-    fun map(models: List<denis.beck.reminder.data.RemindEpoxyDataModel>): List<denis.beck.epoxy.EpoxyDataModel> {
+class ReminderListEpoxyMapper @Inject constructor() {
+    fun map(models: List<RemindEpoxyDataModel>): List<EpoxyDataModel> {
         val calendar = Calendar.getInstance()
-        val resultList = mutableListOf<denis.beck.epoxy.EpoxyDataModel>()
+        val resultList = mutableListOf<EpoxyDataModel>()
 
         var id = 10000
         var previousModel = ExtendedTimeStamp()

@@ -4,26 +4,27 @@ import RemindDomainModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.CreationExtras
-import denis.beck.common.liveData.SingleLiveEvent
+import dagger.BindsInstance
 import denis.beck.common.extensions.toDateString
 import denis.beck.common.extensions.toTimeString
-import denis.beck.reminder.domain.remindManager.RemindManager
-import denis.beck.reminder.RemindRepository
+import denis.beck.common.liveData.SingleLiveEvent
 import denis.beck.common.models.DayOfWeek
+import denis.beck.reminder.RemindRepository
+import denis.beck.reminder.domain.remindManager.RemindManager
+import denis.beck.reminder_ui.di.RemindId
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.Calendar
+import javax.inject.Inject
 
 enum class RemindViewState {
     NEW,
     CHANGE,
 }
 
-class ReminderViewModel(
+class ReminderViewModel @Inject constructor(
+    @RemindId remindId: Long?,
     private val remindManager: RemindManager,
     private val remindRepository: RemindRepository,
 ) : ViewModel() {
@@ -67,7 +68,7 @@ class ReminderViewModel(
 
     var state: RemindViewState = RemindViewState.NEW
 
-    fun init(remindId: Long?) {
+    init {
         setState(remindId)
         viewModelScope.launch(Dispatchers.IO) {
             remindRepository.getRemind(id = remindId)?.let { remind ->
@@ -146,20 +147,4 @@ class ReminderViewModel(
         _pickedTimeText.postValue(dateAndTime.toTimeString())
     }
 
-    companion object {
-        val Factory: ViewModelProvider.Factory = object : ViewModelProvider.Factory {
-            @Suppress("UNCHECKED_CAST")
-            override fun <T : ViewModel> create(
-                modelClass: Class<T>,
-                extras: CreationExtras
-            ): T {
-                val application = checkNotNull(extras[APPLICATION_KEY])
-                val remindRepository = RemindRepository(RemindDatabaseSingleton.instance.reminderDao())
-                return ReminderViewModel(
-                    RemindManager(application, remindRepository),
-                    remindRepository,
-                ) as T
-            }
-        }
-    }
 }

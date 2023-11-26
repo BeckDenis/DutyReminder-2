@@ -1,6 +1,7 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -46,8 +47,12 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
     implementation("androidx.lifecycle:lifecycle-common-java8:2.6.2")
 
+    implementation("com.google.dagger:dagger:2.48")
+    ksp("com.google.dagger:dagger-compiler:2.48")
+
     implementation(project(":pickers"))
     implementation(project(":reminder"))
     implementation(project(":common"))
     implementation(project(":common-ui"))
+    implementation(project(":navigation"))
 }

@@ -2,6 +2,7 @@ package denis.beck.reminder_ui
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,9 +12,14 @@ import android.widget.TimePicker
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import denis.beck.common.viewModel.ViewModelFactory
+import denis.beck.navigation.Navigator
 import denis.beck.pickers.pickers.date.RemindDatePickerDialog
 import denis.beck.pickers.pickers.time.RemindTimePickerDialog
 import denis.beck.reminder_ui.databinding.FragmentReminderBinding
+import denis.beck.reminder_ui.di.DaggerReminderComponent
+import denis.beck.reminder_ui.di.ReminderDependenciesProvider
+import javax.inject.Inject
 
 class ReminderFragment :
     Fragment(),
@@ -37,7 +43,20 @@ class ReminderFragment :
     private var _binding: FragmentReminderBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel by viewModels<ReminderViewModel> { ReminderViewModel.Factory }
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+    private val viewModel: ReminderViewModel by viewModels { viewModelFactory }
+
+    @Inject
+    lateinit var navigator: Navigator
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        val dependencies = (requireActivity() as ReminderDependenciesProvider).reminderDependencies()
+        val remindId = arguments?.getLong(REMIND_ID_ARG_KEY, -1)
+        val component = DaggerReminderComponent.factory().create(requireContext(), remindId, dependencies)
+        component.inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,7 +68,6 @@ class ReminderFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.init(arguments?.getLong(REMIND_ID_ARG_KEY, -1))
         viewModel.setup()
         binding.setup()
     }

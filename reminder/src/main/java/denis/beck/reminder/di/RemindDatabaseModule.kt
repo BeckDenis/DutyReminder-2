@@ -2,8 +2,10 @@ package denis.beck.reminder.di
 
 import android.content.Context
 import androidx.room.Room
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import denis.beck.reminder.RemindRepository
 import denis.beck.reminder.data.room.RemindDao
 import denis.beck.reminder.data.room.RemindDatabase
 import javax.inject.Singleton

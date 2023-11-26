@@ -23,7 +23,8 @@ class LoginFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val dependencies = (requireActivity() as LoginDependenciesProvider).loginDependencies()
-        DaggerLoginComponent.factory().create(dependencies).inject(this)
+        val component = DaggerLoginComponent.factory().create(dependencies)
+        component.inject(this)
     }
 
     override fun onCreateView(

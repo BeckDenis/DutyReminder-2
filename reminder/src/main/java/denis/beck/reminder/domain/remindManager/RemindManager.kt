@@ -11,8 +11,9 @@ import denis.beck.reminder.RemindRepository
 import timber.log.Timber
 import java.util.Calendar
 import java.util.Date
+import javax.inject.Inject
 
-class RemindManager(
+class RemindManager @Inject constructor(
     private val context: Context,
     private val remindRepository: RemindRepository,
 ) {

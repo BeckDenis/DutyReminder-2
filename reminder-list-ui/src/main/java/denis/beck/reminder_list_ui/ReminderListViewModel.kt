@@ -3,20 +3,18 @@ package denis.beck.reminder_list_ui
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.CreationExtras
 import denis.beck.common.liveData.SingleLiveEvent
 import denis.beck.common.extensions.tryLaunch
-import denis.beck.reminder.RemindDatabaseSingleton
 import denis.beck.reminder.RemindEpoxyDataModelMapper
 import denis.beck.reminder.RemindRepository
 import denis.beck.reminder.data.RemindEpoxyDataModel
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class MainViewModel(
+class ReminderListViewModel @Inject constructor(
     private val remindRepository: RemindRepository,
-    private val mainEpoxyMapper: MainEpoxyMapper,
+    private val reminderListEpoxyMapper: ReminderListEpoxyMapper,
 ) : ViewModel() {
 
     private val _data = MutableLiveData<List<denis.beck.epoxy.EpoxyDataModel>>()
@@ -42,26 +40,11 @@ class MainViewModel(
                             )
                     }
                     .map { it.sortedBy(RemindEpoxyDataModel::timestamp) }
-                    .map(mainEpoxyMapper::map)
+                    .map(reminderListEpoxyMapper::map)
                     .collect { list ->
                         _data.value = list
                     }
             }
         )
-    }
-
-    companion object {
-        val Factory: ViewModelProvider.Factory = object : ViewModelProvider.Factory {
-            @Suppress("UNCHECKED_CAST")
-            override fun <T : ViewModel> create(
-                modelClass: Class<T>,
-                extras: CreationExtras
-            ): T {
-                return MainViewModel(
-                    RemindRepository(RemindDatabaseSingleton.instance.reminderDao()),
-                    MainEpoxyMapper(),
-                ) as T
-            }
-        }
     }
 }

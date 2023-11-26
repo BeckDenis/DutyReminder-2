@@ -47,10 +47,14 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
     implementation("androidx.lifecycle:lifecycle-common-java8:2.6.2")
 
+    implementation("com.google.dagger:dagger:2.48")
+    ksp("com.google.dagger:dagger-compiler:2.48")
+
+    ksp("com.airbnb.android:epoxy-processor:5.1.3")
+
     implementation(project(":epoxy"))
     implementation(project(":navigation"))
     implementation(project(":reminder"))
     implementation(project(":common"))
 
-    ksp("com.airbnb.android:epoxy-processor:5.1.3")
 }

@@ -3,8 +3,14 @@ package denis.beck.reminder
 import RemindDomainModel
 import denis.beck.reminder.data.room.RemindDao
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class RemindRepository(private val remindDao: RemindDao) {
+/**
+ * Мб интерфейс?
+ */
+class RemindRepository @Inject constructor(
+    private val remindDao: RemindDao
+) {
 
     suspend fun getReminds() = remindDao.getAll().map { it.toDomain() }
 

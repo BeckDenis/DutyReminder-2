@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    tools:context="denis.beck.reminder_list_ui.MainFragment">
+    tools:context="denis.beck.reminder_list_ui.ReminderListFragment">
 
     <com.google.android.material.button.MaterialButton
         android:layout_marginHorizontal="20dp"

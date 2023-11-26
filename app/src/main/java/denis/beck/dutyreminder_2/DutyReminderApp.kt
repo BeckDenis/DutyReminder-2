@@ -9,7 +9,9 @@ import timber.log.Timber
 
 class DutyReminderApp : Application(), ReminderDatabaseProvider {
 
-    val applicationGraph: ApplicationGraph = DaggerApplicationGraph.create()
+    val applicationGraph: ApplicationGraph = DaggerApplicationGraph
+        .factory()
+        .create(this)
 
     override val remindDao: RemindDao
         get() = applicationGraph.remindDao()

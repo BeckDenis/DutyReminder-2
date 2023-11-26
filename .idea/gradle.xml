@@ -17,7 +17,6 @@
             <option value="$PROJECT_DIR$/epoxy" />
             <option value="$PROJECT_DIR$/login-ui" />
             <option value="$PROJECT_DIR$/navigation" />
-            <option value="$PROJECT_DIR$/navigation-impl" />
             <option value="$PROJECT_DIR$/notifications" />
             <option value="$PROJECT_DIR$/pickers" />
             <option value="$PROJECT_DIR$/preferences" />

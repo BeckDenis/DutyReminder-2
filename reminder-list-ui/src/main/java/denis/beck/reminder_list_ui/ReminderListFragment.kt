@@ -1,26 +1,40 @@
 package denis.beck.reminder_list_ui
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
+import denis.beck.common.viewModel.ViewModelFactory
 import denis.beck.features.reminderlistui.databinding.FragmentMainBinding
 import denis.beck.navigation.Navigator
-import denis.beck.navigation.NavigatorSingleton
+import denis.beck.reminder_list_ui.di.DaggerReminderListComponent
+import denis.beck.reminder_list_ui.di.ReminderListDependenciesProvider
 import denis.beck.reminder_list_ui.epoxy.RemindController
+import javax.inject.Inject
 
-class MainFragment : Fragment() {
+class ReminderListFragment : Fragment() {
 
     private var _binding: FragmentMainBinding? = null
-
     private val binding get() = _binding!!
 
-    // private var navigation = NavigatorSingleton.instance
-    private val viewModel by viewModels<MainViewModel> { MainViewModel.Factory }
     private lateinit var mainController : RemindController
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+    private val viewModel: ReminderListViewModel by viewModels { viewModelFactory }
+
+    @Inject
+    lateinit var navigator: Navigator
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        val dependencies = (requireActivity() as ReminderListDependenciesProvider).reminderListDependencies()
+        val component = DaggerReminderListComponent.factory().create(dependencies)
+        component.inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,7 +58,7 @@ class MainFragment : Fragment() {
         }
     }
 
-    private fun MainViewModel.setup() {
+    private fun ReminderListViewModel.setup() {
         data.observe(viewLifecycleOwner) {
             mainController.setData(it, true)
         }
@@ -52,10 +66,10 @@ class MainFragment : Fragment() {
     }
 
     private fun openRemindFragment(remindId: Long? = null) {
-        // navigation.navigateToReminder(parentFragmentManager, remindId)
+        navigator.navigateToReminder(parentFragmentManager, remindId)
     }
 
     companion object {
-        fun newInstance() = MainFragment()
+        fun newInstance() = ReminderListFragment()
     }
 }
