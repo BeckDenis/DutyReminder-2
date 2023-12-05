@@ -1,9 +1,12 @@
+package denis.beck.reminder.domain.remindManager
+
 import android.os.Parcelable
 import denis.beck.common.models.ExtendedTimeStamp
 import denis.beck.common.extensions.setNextDayOfWeek
 import denis.beck.common.extensions.toDateAndTimeString
 import denis.beck.reminder.data.RemindEpoxyDataModel
 import denis.beck.common.models.DayOfWeek
+import denis.beck.reminder.data.room.RemindEntity
 import kotlinx.parcelize.Parcelize
 import java.util.Calendar
 
@@ -14,7 +17,17 @@ data class RemindDomainModel(
     val message: String,
     val selectedDaysOfWeek: Set<DayOfWeek> = emptySet(),
 ) : Parcelable {
-    fun toEntity() = denis.beck.reminder.data.room.RemindEntity(
+
+    companion object {
+        fun fromEntity(entity: RemindEntity) = RemindDomainModel(
+            id = entity.id,
+            timestamp = entity.timestamp,
+            message = entity.message,
+            selectedDaysOfWeek = entity.selectedDayOfWeeks,
+        )
+    }
+
+    fun toEntity() = RemindEntity(
         id = id,
         timestamp = timestamp,
         message = message,

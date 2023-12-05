@@ -1,16 +1,18 @@
-package denis.beck.reminder
+package denis.beck.reminder_list_ui.epoxy
 
-import RemindDomainModel
+import denis.beck.reminder.domain.remindManager.RemindDomainModel
 import denis.beck.common.extensions.getNextMonthCalendar
 import denis.beck.common.extensions.getPreviousMonthCalendar
 import denis.beck.common.extensions.setFirstDayOfMonth
 import denis.beck.common.extensions.setNextDayOfWeek
+import denis.beck.reminder.data.RemindEpoxyDataModel
 import java.util.Calendar
+import javax.inject.Inject
 
-class RemindEpoxyDataModelMapper {
+class RemindEpoxyDataModelMapper @Inject constructor() {
 
-    fun map(models: List<RemindDomainModel>, onClickListener: (remindId: Long) -> Unit): List<denis.beck.reminder.data.RemindEpoxyDataModel> {
-        val result = mutableListOf<denis.beck.reminder.data.RemindEpoxyDataModel>()
+    fun map(models: List<RemindDomainModel>, onClickListener: (remindId: Long) -> Unit): List<RemindEpoxyDataModel> {
+        val result = mutableListOf<RemindEpoxyDataModel>()
         val calendar = Calendar.getInstance()
         val startTimestamp = calendar.getPreviousMonthCalendar().apply {
             setFirstDayOfMonth()

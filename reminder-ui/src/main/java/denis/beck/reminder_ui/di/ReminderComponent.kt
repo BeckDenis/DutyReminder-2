@@ -1,6 +1,7 @@
 package denis.beck.reminder_ui.di
 
 import android.content.Context
+import androidx.lifecycle.ViewModelStore
 import dagger.BindsInstance
 import dagger.Component
 import denis.beck.common.di.FragmentScope

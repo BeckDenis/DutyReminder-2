@@ -9,7 +9,6 @@ import denis.beck.login.databinding.FragmentLoginBinding
 import denis.beck.login_ui.di.DaggerLoginComponent
 import denis.beck.login_ui.di.LoginDependenciesProvider
 import denis.beck.navigation.Navigator
-import denis.beck.preferences.SharedPreferencesManager
 import javax.inject.Inject
 
 class LoginFragment : Fragment() {
@@ -17,13 +16,16 @@ class LoginFragment : Fragment() {
     @Inject
     lateinit var navigator: Navigator
 
+    @Inject
+    lateinit var viewModel: LoginViewModel
+
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val dependencies = (requireActivity() as LoginDependenciesProvider).loginDependencies()
-        val component = DaggerLoginComponent.factory().create(dependencies)
+        val component = DaggerLoginComponent.factory().create(requireContext(), viewModelStore, dependencies)
         component.inject(this)
     }
 
@@ -38,7 +40,9 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.logInButton.setOnClickListener {
-            SharedPreferencesManager(requireContext()).setAuthorized(true)
+            viewModel.onLogIn()
+        }
+        viewModel.goToReminderList.observe(viewLifecycleOwner) {
             navigator.navigateToMain(parentFragmentManager)
         }
     }

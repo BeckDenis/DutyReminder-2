@@ -1,11 +1,15 @@
 package denis.beck.reminder_list_ui.epoxy
 
 import com.airbnb.epoxy.Typed2EpoxyController
+import denis.beck.common.di.FragmentScope
+import denis.beck.epoxy.EpoxyDataModel
 import denis.beck.reminder.data.RemindEpoxyDataModel
+import javax.inject.Inject
 
-class RemindController : Typed2EpoxyController<List<denis.beck.epoxy.EpoxyDataModel>, Boolean>() {
+@FragmentScope
+internal class RemindController @Inject constructor() : Typed2EpoxyController<List<EpoxyDataModel>, Boolean>() {
 
-    override fun buildModels(data: List<denis.beck.epoxy.EpoxyDataModel>?, data2: Boolean?) {
+    override fun buildModels(data: List<EpoxyDataModel>?, data2: Boolean?) {
         data?.forEach { model ->
             when (model) {
                 is DateEpoxyDataModel -> {

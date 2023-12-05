@@ -4,7 +4,10 @@ import android.content.Context
 import dagger.BindsInstance
 import dagger.Component
 import denis.beck.dutyreminder_2.navigation.di.NavigationModule
+import denis.beck.dutyreminder_2.reboot.RebootReceiver
 import denis.beck.navigation.Navigator
+import denis.beck.notifications.notification.RemindNotificationManager
+import denis.beck.reminder.RemindReceiver
 import denis.beck.reminder.data.room.RemindDao
 import denis.beck.reminder.di.RemindDatabaseModule
 import javax.inject.Singleton
@@ -25,6 +28,9 @@ interface ApplicationGraph {
         ): ApplicationGraph
     }
 
+    fun inject(rebootReceiver: RebootReceiver)
+
     fun navigator(): Navigator
     fun remindDao(): RemindDao
+    fun notificationManager(): RemindNotificationManager
 }

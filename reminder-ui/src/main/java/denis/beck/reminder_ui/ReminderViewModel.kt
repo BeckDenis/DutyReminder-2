@@ -1,16 +1,15 @@
 package denis.beck.reminder_ui
 
-import RemindDomainModel
+import denis.beck.reminder.domain.remindManager.RemindDomainModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dagger.BindsInstance
 import denis.beck.common.extensions.toDateString
 import denis.beck.common.extensions.toTimeString
 import denis.beck.common.liveData.SingleLiveEvent
 import denis.beck.common.models.DayOfWeek
-import denis.beck.reminder.RemindRepository
+import denis.beck.reminder.data.RemindRepository
 import denis.beck.reminder.domain.remindManager.RemindManager
 import denis.beck.reminder_ui.di.RemindId
 import kotlinx.coroutines.Dispatchers
@@ -28,8 +27,6 @@ class ReminderViewModel @Inject constructor(
     private val remindManager: RemindManager,
     private val remindRepository: RemindRepository,
 ) : ViewModel() {
-
-    // Надо заменить отдельные на передачу Remind или вообще на стейт
 
     private val _showDatePicker = SingleLiveEvent<Unit>()
     val showDatePicker: LiveData<Unit> = _showDatePicker

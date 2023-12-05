@@ -56,5 +56,6 @@ dependencies {
     implementation(project(":navigation"))
     implementation(project(":reminder"))
     implementation(project(":common"))
+    implementation(project(":preferences"))
 
 }

@@ -5,8 +5,9 @@ import android.app.NotificationManager
 import android.content.Context
 import androidx.core.app.NotificationCompat
 import denis.beck.notifications.R
+import javax.inject.Inject
 
-class RemindNotificationManager(private val context: Context) {
+class RemindNotificationManager @Inject constructor(private val context: Context) {
     companion object {
         private const val CHANNEL_ID = "remind.channel"
     }

@@ -13,12 +13,14 @@ import javax.inject.Inject
 
 class NavigatorImpl @Inject constructor(): Navigator {
     override fun navigateToLogin(fragmentManager: FragmentManager) {
+        fragmentManager.clear()
         fragmentManager.commit {
             add(R.id.fragment_container, LoginFragment.newInstance())
         }
     }
 
     override fun navigateToMain(fragmentManager: FragmentManager) {
+        fragmentManager.clear()
         fragmentManager.commit {
             add(R.id.fragment_container, ReminderListFragment.newInstance())
         }
@@ -37,6 +39,12 @@ class NavigatorImpl @Inject constructor(): Navigator {
         this.commit {
             replace(R.id.fragment_container, fragment)
             addToBackStack(null)
+        }
+    }
+
+    private fun FragmentManager.clear() {
+        for (fragment in this.fragments) {
+            this.beginTransaction().remove(fragment).commit()
         }
     }
 }

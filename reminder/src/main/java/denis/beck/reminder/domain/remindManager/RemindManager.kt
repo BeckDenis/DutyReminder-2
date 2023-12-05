@@ -1,13 +1,12 @@
 package denis.beck.reminder.domain.remindManager
 
-import RemindDomainModel
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import denis.beck.common.extensions.toDateAndTimeLogString
 import denis.beck.reminder.RemindReceiver
-import denis.beck.reminder.RemindRepository
+import denis.beck.reminder.data.RemindRepository
 import timber.log.Timber
 import java.util.Calendar
 import java.util.Date
@@ -20,7 +19,6 @@ class RemindManager @Inject constructor(
     private val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
     suspend fun setReminder(remind: RemindDomainModel) {
-        // Убрать бы отсюда репозиторий
         val id = remindRepository.setRemind(remind)
 
         val pendingIntent = getPendingIntent(remind.copy(id = id))
@@ -70,5 +68,37 @@ class RemindManager @Inject constructor(
             Date(System.currentTimeMillis())
         }
         Timber.d("remind set in ${currentDate.toDateAndTimeLogString()} on ${date.toDateAndTimeLogString()} with id:${remind.id} and message: ${remind.message} prpr")
+    }
+
+    /**
+     * Обрабатываем старт устройства. Удаляем просроченные уведомления и устанавливаем будущие,
+     * так как после выключения устройства все задачи сбрасываются
+     */
+    suspend fun handleReboot() {
+        val reminds = remindRepository.getReminds()
+        val currentTime = System.currentTimeMillis()
+
+        deleteExpiredReminds(reminds, currentTime)
+        resetActualReminds(reminds, currentTime)
+    }
+
+    private suspend fun resetActualReminds(
+        reminds: List<RemindDomainModel>,
+        currentTime: Long,
+    ) {
+        val actualReminds = reminds.filter { it.timestamp >= (currentTime + 1000L) }
+        actualReminds.forEach {
+            setReminder(it)
+        }
+    }
+
+    private suspend fun deleteExpiredReminds(
+        reminds: List<RemindDomainModel>,
+        currentTime: Long
+    ) {
+        val expiredReminds = reminds.filter { it.timestamp < (currentTime + 1000L) }
+        expiredReminds.forEach { remind ->
+            remindRepository.deleteRemind(remind.id)
+        }
     }
 }

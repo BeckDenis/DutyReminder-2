@@ -1,7 +1,9 @@
-package denis.beck.reminder
+package denis.beck.reminder.data
 
-import RemindDomainModel
+import denis.beck.reminder.domain.remindManager.RemindDomainModel
 import denis.beck.reminder.data.room.RemindDao
+import denis.beck.reminder.data.room.RemindEntity
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -14,13 +16,8 @@ class RemindRepository @Inject constructor(
 
     suspend fun getReminds() = remindDao.getAll().map { it.toDomain() }
 
-    fun getRemindsByFlow() = remindDao
+    fun getRemindsByFlow(): Flow<List<RemindEntity>> = remindDao
         .getAllByFlow()
-        .map { list ->
-            list.map {
-                it.toDomain()
-            }
-        }
 
     suspend fun getRemind(id: Long?): RemindDomainModel? {
         id ?: return null

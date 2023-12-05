@@ -20,11 +20,12 @@ class ReminderListFragment : Fragment() {
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var mainController : RemindController
+    @Inject
+    internal lateinit var viewModelFactory: ViewModelFactory
+    private val viewModel: ReminderListViewModel by viewModels { viewModelFactory }
 
     @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-    private val viewModel: ReminderListViewModel by viewModels { viewModelFactory }
+    internal lateinit var mainController: RemindController
 
     @Inject
     lateinit var navigator: Navigator
@@ -32,7 +33,7 @@ class ReminderListFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         val dependencies = (requireActivity() as ReminderListDependenciesProvider).reminderListDependencies()
-        val component = DaggerReminderListComponent.factory().create(dependencies)
+        val component = DaggerReminderListComponent.factory().create(requireContext(), dependencies)
         component.inject(this)
     }
 
@@ -56,6 +57,9 @@ class ReminderListFragment : Fragment() {
         newReminderButton.setOnClickListener {
             openRemindFragment()
         }
+        exitButton.setOnClickListener {
+            viewModel.onLogout()
+        }
     }
 
     private fun ReminderListViewModel.setup() {
@@ -63,6 +67,11 @@ class ReminderListFragment : Fragment() {
             mainController.setData(it, true)
         }
         goToRemind.observe(viewLifecycleOwner, ::openRemindFragment)
+        goToLogin.observe(viewLifecycleOwner) { openLoginFragment() }
+    }
+
+    private fun openLoginFragment() {
+        navigator.navigateToLogin(parentFragmentManager)
     }
 
     private fun openRemindFragment(remindId: Long? = null) {
