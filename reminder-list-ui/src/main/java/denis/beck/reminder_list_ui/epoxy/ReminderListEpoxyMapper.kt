@@ -1,10 +1,9 @@
-package denis.beck.reminder_list_ui
+package denis.beck.reminder_list_ui.epoxy
 
 import denis.beck.common.models.ExtendedTimeStamp
 import denis.beck.common.models.DayOfWeek
 import denis.beck.epoxy.EpoxyDataModel
 import denis.beck.reminder.data.RemindEpoxyDataModel
-import denis.beck.reminder_list_ui.epoxy.DateEpoxyDataModel
 import java.util.Calendar
 import javax.inject.Inject
 

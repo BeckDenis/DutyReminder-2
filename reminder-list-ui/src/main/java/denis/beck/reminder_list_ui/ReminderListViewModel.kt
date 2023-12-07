@@ -9,9 +9,9 @@ import denis.beck.common.liveData.SingleLiveEvent
 import denis.beck.epoxy.EpoxyDataModel
 import denis.beck.preferences.SharedPreferencesManager
 import denis.beck.reminder_list_ui.epoxy.RemindEpoxyDataModelMapper
-import denis.beck.reminder.data.RemindRepository
 import denis.beck.reminder.data.RemindEpoxyDataModel
 import denis.beck.reminder.domain.RemindInteractor
+import denis.beck.reminder_list_ui.epoxy.ReminderListEpoxyMapper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject

@@ -6,7 +6,8 @@ import android.content.Intent
 import denis.beck.common.extensions.goAsync
 import denis.beck.notifications.notification.NotificationManagerProvider
 import denis.beck.reminder.data.RemindRepository
-import denis.beck.reminder.di.ReminderDatabaseProvider
+import denis.beck.reminder.di.RemindManagerProvider
+import denis.beck.reminder.domain.remindManager.RemindDomainModel
 import denis.beck.reminder.domain.remindManager.RemindManager
 import timber.log.Timber
 import java.lang.IllegalStateException
@@ -32,11 +33,8 @@ class RemindReceiver : BroadcastReceiver() {
 
             val isPeriodical = intent.getBooleanExtra(REMIND_IS_PERIODICAL, false)
             if (isPeriodical) {
-                val remindDao = (context.applicationContext as ReminderDatabaseProvider).remindDao
-                val remindManager = RemindManager(context, RemindRepository(remindDao))
-                remindDao.get(id)?.toDomain()?.let { remind ->
-                    remindManager.restartReminder(remind)
-                }
+                val remindManager = (context.applicationContext as RemindManagerProvider).remindManager
+                remindManager.restartReminder(id)
             }
         }
     }

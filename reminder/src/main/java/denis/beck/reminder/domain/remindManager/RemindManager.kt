@@ -27,7 +27,11 @@ class RemindManager @Inject constructor(
         alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, remind.timestamp, pendingIntent)
     }
 
-    fun restartReminder(remind: RemindDomainModel) {
+    suspend fun restartReminder(id: Long) {
+        val remind = remindRepository
+            .getRemind(id)
+            ?.let(RemindDomainModel::fromEntity) ?: return
+
         val pendingIntent = getPendingIntent(remind)
 
         logNewReminder(remind)
@@ -75,7 +79,10 @@ class RemindManager @Inject constructor(
      * так как после выключения устройства все задачи сбрасываются
      */
     suspend fun handleReboot() {
-        val reminds = remindRepository.getReminds()
+        val reminds = remindRepository
+            .getReminds()
+            .map(RemindDomainModel::fromEntity)
+
         val currentTime = System.currentTimeMillis()
 
         deleteExpiredReminds(reminds, currentTime)

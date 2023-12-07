@@ -10,6 +10,7 @@ import denis.beck.common.extensions.toTimeString
 import denis.beck.common.liveData.SingleLiveEvent
 import denis.beck.common.models.DayOfWeek
 import denis.beck.reminder.data.RemindRepository
+import denis.beck.reminder.domain.RemindInteractor
 import denis.beck.reminder.domain.remindManager.RemindManager
 import denis.beck.reminder_ui.di.RemindId
 import kotlinx.coroutines.Dispatchers
@@ -25,7 +26,7 @@ enum class RemindViewState {
 class ReminderViewModel @Inject constructor(
     @RemindId remindId: Long?,
     private val remindManager: RemindManager,
-    private val remindRepository: RemindRepository,
+    private val remindInteractor: RemindInteractor,
 ) : ViewModel() {
 
     private val _showDatePicker = SingleLiveEvent<Unit>()
@@ -68,11 +69,13 @@ class ReminderViewModel @Inject constructor(
     init {
         setState(remindId)
         viewModelScope.launch(Dispatchers.IO) {
-            remindRepository.getRemind(id = remindId)?.let { remind ->
-                this@ReminderViewModel.initialRemind = remind
-                dateAndTime.timeInMillis = remind.timestamp
-                _message.postValue(remind.message)
-                _setSelectedDaysOfWeek.postValue(remind.selectedDaysOfWeek)
+            remindId?.let {
+                remindInteractor.getRemind(id = remindId)?.let { remind ->
+                    this@ReminderViewModel.initialRemind = remind
+                    dateAndTime.timeInMillis = remind.timestamp
+                    _message.postValue(remind.message)
+                    _setSelectedDaysOfWeek.postValue(remind.selectedDaysOfWeek)
+                }
             }
             invalidateDateAndTimeText()
         }

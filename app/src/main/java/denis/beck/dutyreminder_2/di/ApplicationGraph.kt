@@ -8,8 +8,10 @@ import denis.beck.dutyreminder_2.reboot.RebootReceiver
 import denis.beck.navigation.Navigator
 import denis.beck.notifications.notification.RemindNotificationManager
 import denis.beck.reminder.RemindReceiver
+import denis.beck.reminder.data.RemindRepository
 import denis.beck.reminder.data.room.RemindDao
 import denis.beck.reminder.di.RemindDatabaseModule
+import denis.beck.reminder.domain.remindManager.RemindManager
 import javax.inject.Singleton
 
 @Singleton
@@ -31,6 +33,7 @@ interface ApplicationGraph {
     fun inject(rebootReceiver: RebootReceiver)
 
     fun navigator(): Navigator
-    fun remindDao(): RemindDao
+    fun remindManager(): RemindManager
+    fun remindRepository(): RemindRepository
     fun notificationManager(): RemindNotificationManager
 }

@@ -6,6 +6,7 @@ import dagger.BindsInstance
 import dagger.Component
 import denis.beck.common.di.FragmentScope
 import denis.beck.common.viewModel.ViewModelModule
+import denis.beck.reminder.di.RemindDatabaseModule
 import denis.beck.reminder_ui.ReminderFragment
 import javax.inject.Qualifier
 import javax.inject.Scope

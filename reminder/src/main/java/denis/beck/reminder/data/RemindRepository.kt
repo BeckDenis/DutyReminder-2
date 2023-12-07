@@ -14,15 +14,12 @@ class RemindRepository @Inject constructor(
     private val remindDao: RemindDao
 ) {
 
-    suspend fun getReminds() = remindDao.getAll().map { it.toDomain() }
+    suspend fun getReminds(): List<RemindEntity> = remindDao.getAll()
 
     fun getRemindsByFlow(): Flow<List<RemindEntity>> = remindDao
         .getAllByFlow()
 
-    suspend fun getRemind(id: Long?): RemindDomainModel? {
-        id ?: return null
-        return remindDao.get(id)?.toDomain()
-    }
+    suspend fun getRemind(id: Long): RemindEntity? = remindDao.get(id)
 
     suspend fun setRemind(remindDomainModel: RemindDomainModel) =
         remindDao.insert(remindDomainModel.toEntity())
