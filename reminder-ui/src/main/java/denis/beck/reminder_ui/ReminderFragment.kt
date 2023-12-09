@@ -15,8 +15,7 @@ import denis.beck.navigation.Navigator
 import denis.beck.pickers.pickers.date.RemindDatePickerDialog
 import denis.beck.pickers.pickers.time.RemindTimePickerDialog
 import denis.beck.reminder_ui.databinding.FragmentReminderBinding
-import denis.beck.reminder_ui.di.DaggerReminderComponent
-import denis.beck.reminder_ui.di.ReminderDependenciesProvider
+import denis.beck.reminder_ui.di.ReminderComponentFactoryProvider
 import javax.inject.Inject
 
 class ReminderFragment :
@@ -49,9 +48,9 @@ class ReminderFragment :
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        val dependencies = (requireActivity() as ReminderDependenciesProvider).reminderDependencies()
+        val componentFactory = (requireActivity() as ReminderComponentFactoryProvider).reminderComponentFactory
         val remindId = arguments?.getLong(REMIND_ID_ARG_KEY, -1)
-        val component = DaggerReminderComponent.factory().create(requireContext(), remindId, dependencies)
+        val component = componentFactory.create(requireContext(), remindId)
         component.inject(this)
     }
 

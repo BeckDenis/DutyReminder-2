@@ -1,9 +1,9 @@
 package denis.beck.login_ui.di
 
-import android.content.Context
 import androidx.lifecycle.ViewModelStore
 import dagger.BindsInstance
-import dagger.Component
+import dagger.Module
+import dagger.Subcomponent
 import denis.beck.common.di.FragmentScope
 import denis.beck.common.viewModel.ViewModelModule
 import denis.beck.login_ui.data.di.LoginDataModule
@@ -12,8 +12,7 @@ import denis.beck.login_ui.presentation.LoginFragment
 import denis.beck.login_ui.presentation.di.LoginPresentationModule
 
 @FragmentScope
-@Component(
-    dependencies = [LoginDependencies::class],
+@Subcomponent(
     modules = [
         ViewModelModule::class,
         LoginDataModule::class,
@@ -23,16 +22,17 @@ import denis.beck.login_ui.presentation.di.LoginPresentationModule
 )
 interface LoginComponent {
 
-    @Component.Factory
+    @Subcomponent.Factory
     interface Factory {
         fun create(
-            @BindsInstance context: Context,
             @BindsInstance viewModelStore: ViewModelStore,
-            advertiserInfoExternalDependencies: LoginDependencies,
         ): LoginComponent
     }
 
     fun inject(fragment: LoginFragment)
 
 }
+
+@Module(subcomponents = [LoginComponent::class])
+class LoginModule
 

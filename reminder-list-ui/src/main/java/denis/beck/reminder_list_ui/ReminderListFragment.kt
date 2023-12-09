@@ -10,8 +10,7 @@ import androidx.fragment.app.viewModels
 import denis.beck.common.viewModel.ViewModelFactory
 import denis.beck.features.reminderlistui.databinding.FragmentMainBinding
 import denis.beck.navigation.Navigator
-import denis.beck.reminder_list_ui.di.DaggerReminderListComponent
-import denis.beck.reminder_list_ui.di.ReminderListDependenciesProvider
+import denis.beck.reminder_list_ui.di.ReminderListComponentFactoryProvider
 import denis.beck.reminder_list_ui.epoxy.RemindController
 import javax.inject.Inject
 
@@ -32,8 +31,8 @@ class ReminderListFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        val dependencies = (requireActivity() as ReminderListDependenciesProvider).reminderListDependencies()
-        val component = DaggerReminderListComponent.factory().create(requireContext(), dependencies)
+        val componentFactory = (requireActivity() as ReminderListComponentFactoryProvider).reminderListComponentFactory
+        val component = componentFactory.create()
         component.inject(this)
     }
 

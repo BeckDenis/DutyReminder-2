@@ -72,4 +72,5 @@ dependencies {
     implementation(project(":common"))
     implementation(project(":preferences"))
     implementation(project(":notifications"))
+    implementation(project(":epoxy"))
 }

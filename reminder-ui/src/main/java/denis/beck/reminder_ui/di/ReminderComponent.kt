@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.lifecycle.ViewModelStore
 import dagger.BindsInstance
 import dagger.Component
+import dagger.Module
+import dagger.Subcomponent
 import denis.beck.common.di.FragmentScope
 import denis.beck.common.viewModel.ViewModelModule
 import denis.beck.reminder.di.RemindDatabaseModule
@@ -12,21 +14,18 @@ import javax.inject.Qualifier
 import javax.inject.Scope
 
 @FragmentScope
-@Component(
-    dependencies = [ReminderDependencies::class],
+@Subcomponent(
     modules = [
         ViewModelModule::class,
-        ReminderModule::class,
     ]
 )
 interface ReminderComponent {
 
-    @Component.Factory
+    @Subcomponent.Factory
     interface Factory {
         fun create(
             @BindsInstance context: Context,
             @BindsInstance @RemindId remindId: Long?,
-            dependencies: ReminderDependencies,
         ): ReminderComponent
     }
 
@@ -37,3 +36,6 @@ interface ReminderComponent {
 @Qualifier
 @Retention(AnnotationRetention.RUNTIME)
 annotation class RemindId
+
+@Module(subcomponents = [ReminderComponent::class])
+class ReminderModule

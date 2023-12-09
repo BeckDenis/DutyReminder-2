@@ -28,7 +28,6 @@ internal class RemindController @Inject constructor() : Typed2EpoxyController<Li
                         .addTo(this)
                 }
             }
-
         }
     }
 }

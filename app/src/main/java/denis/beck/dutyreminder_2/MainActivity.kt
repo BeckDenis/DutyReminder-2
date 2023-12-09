@@ -8,41 +8,51 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.commit
 import denis.beck.dutyreminder_2.di.ActivityComponent
-import denis.beck.dutyreminder_2.di.DaggerActivityComponent
-import denis.beck.login_ui.di.LoginDependencies
-import denis.beck.login_ui.di.LoginDependenciesProvider
+import denis.beck.login_ui.di.LoginComponent
+import denis.beck.login_ui.di.LoginComponentFactoryProvider
+import denis.beck.navigation.Navigator
 import denis.beck.preferences.SharedPreferencesManager
-import denis.beck.reminder_list_ui.di.ReminderListDependencies
-import denis.beck.reminder_list_ui.di.ReminderListDependenciesProvider
-import denis.beck.reminder_ui.di.ReminderDependencies
-import denis.beck.reminder_ui.di.ReminderDependenciesProvider
+import denis.beck.reminder_list_ui.di.ReminderListComponent
+import denis.beck.reminder_list_ui.di.ReminderListComponentFactoryProvider
+import denis.beck.reminder_ui.di.ReminderComponent
+import denis.beck.reminder_ui.di.ReminderComponentFactoryProvider
+import javax.inject.Inject
 
 class MainActivity :
     AppCompatActivity(),
-    LoginDependenciesProvider,
-    ReminderDependenciesProvider,
-    ReminderListDependenciesProvider {
+    LoginComponentFactoryProvider,
+    ReminderComponentFactoryProvider,
+    ReminderListComponentFactoryProvider {
 
-    private val component: ActivityComponent by lazy {
-        DaggerActivityComponent
-            .factory()
-            .create(
-                (applicationContext as DutyReminderApp)
-                    .applicationGraph
-            )
-    }
+    private lateinit var component: ActivityComponent
+
+    override val loginComponentFactory: LoginComponent.Factory
+        get() = component.loginComponentFactory
+    override val reminderComponentFactory: ReminderComponent.Factory
+        get() = component.reminderComponentFactory
+    override val reminderListComponentFactory: ReminderListComponent.Factory
+        get() = component.reminderListComponentFactory
+
+    @Inject
+    lateinit var navigator: Navigator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        component = (applicationContext as DutyReminderApp)
+            .applicationGraph
+            .activityComponentFactory
+            .create()
+        component.inject(this)
+
         setContentView(R.layout.activity_main)
 
         val prefs = SharedPreferencesManager(this)
 
         supportFragmentManager.commit {
             if (prefs.getAuthorized()) {
-                component.navigator().navigateToMain(supportFragmentManager)
+                navigator.navigateToMain(supportFragmentManager)
             } else {
-                component.navigator().navigateToLogin(supportFragmentManager)
+                navigator.navigateToLogin(supportFragmentManager)
             }
             addToBackStack(null)
         }
@@ -59,8 +69,4 @@ class MainActivity :
             }
         }
     }
-
-    override fun loginDependencies(): LoginDependencies = component
-    override fun reminderDependencies(): ReminderDependencies = component
-    override fun reminderListDependencies(): ReminderListDependencies = component
 }
