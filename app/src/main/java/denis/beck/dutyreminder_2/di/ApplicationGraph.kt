@@ -7,9 +7,7 @@ import denis.beck.dutyreminder_2.navigation.di.NavigationModule
 import denis.beck.dutyreminder_2.reboot.RebootReceiver
 import denis.beck.navigation.Navigator
 import denis.beck.notifications.notification.RemindNotificationManager
-import denis.beck.reminder.RemindReceiver
 import denis.beck.reminder.data.RemindRepository
-import denis.beck.reminder.data.room.RemindDao
 import denis.beck.reminder.di.RemindDatabaseModule
 import denis.beck.reminder.domain.remindManager.RemindManager
 import javax.inject.Singleton

@@ -15,14 +15,18 @@ dependencyResolutionManagement {
 
 rootProject.name = "DutyReminder-2"
 include(":app")
-include(":reminder")
+
 include(":notifications")
 include(":pickers")
 include(":epoxy")
-include(":reminder-list-ui")
-include(":reminder-ui")
 include(":navigation")
-include(":common-ui")
-include(":common")
-include(":login-ui")
 include(":preferences")
+
+include(":common:ui")
+include(":common:core")
+
+include(":feature:reminder:core")
+include(":feature:reminder:reminder-list-screen")
+include(":feature:reminder:reminder-screen")
+
+include(":feature:login-screen")

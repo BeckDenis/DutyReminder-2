@@ -4,7 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.Intent.ACTION_REBOOT
-import denis.beck.common.extensions.goAsync
+import denis.beck.common_core.extensions.goAsync
 import denis.beck.dutyreminder_2.DutyReminderApp
 import denis.beck.reminder.domain.remindManager.RemindManager
 import javax.inject.Inject

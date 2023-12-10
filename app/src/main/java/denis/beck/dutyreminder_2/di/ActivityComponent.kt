@@ -1,7 +1,7 @@
 package denis.beck.dutyreminder_2.di
 
 import dagger.Component
-import denis.beck.common.di.ActivityScope
+import denis.beck.common_core.di.ActivityScope
 import denis.beck.login_ui.di.LoginDependencies
 import denis.beck.reminder_list_ui.di.ReminderListDependencies
 import denis.beck.reminder_ui.di.ReminderDependencies

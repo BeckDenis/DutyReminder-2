@@ -13,16 +13,19 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/common" />
-            <option value="$PROJECT_DIR$/common-ui" />
+            <option value="$PROJECT_DIR$/common/core" />
+            <option value="$PROJECT_DIR$/common/ui" />
             <option value="$PROJECT_DIR$/epoxy" />
-            <option value="$PROJECT_DIR$/login-ui" />
+            <option value="$PROJECT_DIR$/feature" />
+            <option value="$PROJECT_DIR$/feature/login-screen" />
+            <option value="$PROJECT_DIR$/feature/reminder" />
+            <option value="$PROJECT_DIR$/feature/reminder/core" />
+            <option value="$PROJECT_DIR$/feature/reminder/reminder-list-screen" />
+            <option value="$PROJECT_DIR$/feature/reminder/reminder-screen" />
             <option value="$PROJECT_DIR$/navigation" />
             <option value="$PROJECT_DIR$/notifications" />
             <option value="$PROJECT_DIR$/pickers" />
             <option value="$PROJECT_DIR$/preferences" />
-            <option value="$PROJECT_DIR$/reminder" />
-            <option value="$PROJECT_DIR$/reminder-list-ui" />
-            <option value="$PROJECT_DIR$/reminder-ui" />
           </set>
         </option>
       </GradleProjectSettings>
