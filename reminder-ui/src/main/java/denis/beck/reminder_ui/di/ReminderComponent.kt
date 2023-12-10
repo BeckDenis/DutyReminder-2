@@ -16,7 +16,7 @@ import javax.inject.Scope
 @FragmentScope
 @Subcomponent(
     modules = [
-        ViewModelModule::class,
+        ReminderViewModelModule::class,
     ]
 )
 interface ReminderComponent {

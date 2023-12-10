@@ -5,7 +5,9 @@ import denis.beck.common.di.FragmentScope
 import denis.beck.reminder_list_ui.ReminderListFragment
 
 @FragmentScope
-@Subcomponent
+@Subcomponent(
+    modules = [ReminderListViewModelModule::class]
+)
 interface ReminderListComponent {
 
     @Subcomponent.Factory

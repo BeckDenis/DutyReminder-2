@@ -33,8 +33,6 @@ interface ApplicationGraph {
 
     fun inject(rebootReceiver: RebootReceiver)
 
-    fun navigator(): Navigator
     fun remindManager(): RemindManager
-    fun remindRepository(): RemindRepository
     fun notificationManager(): RemindNotificationManager
 }

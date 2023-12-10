@@ -13,7 +13,6 @@ import denis.beck.login_ui.presentation.LoginViewModelImpl
 @Module
 interface LoginPresentationModule {
 
-    @Module
     companion object {
         @Provides
         fun provideViewModel(viewModelProvider: ViewModelProvider): LoginViewModel {

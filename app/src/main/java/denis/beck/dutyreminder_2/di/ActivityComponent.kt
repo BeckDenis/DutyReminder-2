@@ -10,7 +10,6 @@ import denis.beck.reminder_list_ui.di.ReminderListComponent
 import denis.beck.reminder_list_ui.di.ReminderListModule
 import denis.beck.reminder_ui.di.ReminderComponent
 import denis.beck.reminder_ui.di.ReminderModule
-import denis.beck.reminder_ui.di.ReminderViewModelModule
 
 @ActivityScope
 @Subcomponent(

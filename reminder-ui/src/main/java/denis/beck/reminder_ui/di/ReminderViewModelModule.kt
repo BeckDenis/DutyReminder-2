@@ -7,7 +7,7 @@ import dagger.multibindings.IntoMap
 import denis.beck.common.viewModel.ViewModelKey
 import denis.beck.reminder_ui.ReminderViewModel
 
-@Module()
+@Module
 interface ReminderViewModelModule {
 
     @Binds

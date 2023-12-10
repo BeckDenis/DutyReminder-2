@@ -11,6 +11,8 @@ import android.widget.DatePicker
 import android.widget.TimePicker
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import denis.beck.common.viewModel.ViewModelFactory
 import denis.beck.navigation.Navigator
 import denis.beck.pickers.pickers.date.RemindDatePickerDialog
 import denis.beck.pickers.pickers.time.RemindTimePickerDialog
@@ -41,7 +43,9 @@ class ReminderFragment :
     private val binding get() = _binding!!
 
     @Inject
-    lateinit var viewModel: ReminderViewModel
+    lateinit var viewModelFactory: ViewModelFactory
+
+    private val viewModel: ReminderViewModel by viewModels { viewModelFactory }
 
     @Inject
     lateinit var navigator: Navigator
