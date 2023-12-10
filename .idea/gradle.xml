@@ -18,13 +18,13 @@
             <option value="$PROJECT_DIR$/epoxy" />
             <option value="$PROJECT_DIR$/feature" />
             <option value="$PROJECT_DIR$/feature/login-screen" />
+            <option value="$PROJECT_DIR$/feature/notifications" />
+            <option value="$PROJECT_DIR$/feature/pickers" />
             <option value="$PROJECT_DIR$/feature/reminder" />
             <option value="$PROJECT_DIR$/feature/reminder/core" />
             <option value="$PROJECT_DIR$/feature/reminder/reminder-list-screen" />
             <option value="$PROJECT_DIR$/feature/reminder/reminder-screen" />
             <option value="$PROJECT_DIR$/navigation" />
-            <option value="$PROJECT_DIR$/notifications" />
-            <option value="$PROJECT_DIR$/pickers" />
             <option value="$PROJECT_DIR$/preferences" />
           </set>
         </option>

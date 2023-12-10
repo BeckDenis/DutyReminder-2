@@ -58,5 +58,5 @@ dependencies {
 
     implementation(project(":epoxy"))
     implementation(project(":common:core"))
-    implementation(project(":notifications"))
+    implementation(project(":feature:notifications"))
 }

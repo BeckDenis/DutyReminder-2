@@ -50,7 +50,7 @@ dependencies {
     implementation("com.google.dagger:dagger:2.48")
     ksp("com.google.dagger:dagger-compiler:2.48")
 
-    implementation(project(":pickers"))
+    implementation(project(":feature:pickers"))
     implementation(project(":feature:reminder:core"))
     implementation(project(":common:core"))
     implementation(project(":common:ui"))

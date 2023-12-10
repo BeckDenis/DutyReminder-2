@@ -71,5 +71,5 @@ dependencies {
     implementation(project(":feature:login-screen"))
     implementation(project(":common:core"))
     implementation(project(":preferences"))
-    implementation(project(":notifications"))
+    implementation(project(":feature:notifications"))
 }

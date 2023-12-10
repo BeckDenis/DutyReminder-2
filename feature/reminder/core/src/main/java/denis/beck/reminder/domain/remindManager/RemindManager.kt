@@ -19,7 +19,7 @@ class RemindManager @Inject constructor(
     private val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
     suspend fun setReminder(remind: RemindDomainModel) {
-        val id = remindRepository.setRemind(remind)
+        val id = remindRepository.setRemind(remind.toEntity())
 
         val pendingIntent = getPendingIntent(remind.copy(id = id))
 
@@ -41,7 +41,7 @@ class RemindManager @Inject constructor(
     suspend fun updateReminder(newRemind: RemindDomainModel) {
         val newPendingIntent = getPendingIntent(newRemind)
         alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, newRemind.timestamp, newPendingIntent)
-        remindRepository.updateRemind(newRemind)
+        remindRepository.updateRemind(newRemind.toEntity())
 
         logNewReminder(newRemind)
     }

@@ -21,10 +21,10 @@ class RemindRepository @Inject constructor(
 
     suspend fun getRemind(id: Long): RemindEntity? = remindDao.get(id)
 
-    suspend fun setRemind(remindDomainModel: RemindDomainModel) =
-        remindDao.insert(remindDomainModel.toEntity())
+    suspend fun setRemind(remindDomainModel: RemindEntity) =
+        remindDao.insert(remindDomainModel)
 
     suspend fun deleteRemind(remindId: Long) = remindDao.delete(remindId)
 
-    suspend fun updateRemind(remind: RemindDomainModel) = remindDao.update(remind.toEntity())
+    suspend fun updateRemind(remind: RemindEntity) = remindDao.update(remind)
 }

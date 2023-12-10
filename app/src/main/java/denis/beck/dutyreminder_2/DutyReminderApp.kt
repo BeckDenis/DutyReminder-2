@@ -5,7 +5,6 @@ import denis.beck.dutyreminder_2.di.ApplicationGraph
 import denis.beck.dutyreminder_2.di.DaggerApplicationGraph
 import denis.beck.notifications.notification.NotificationManagerProvider
 import denis.beck.notifications.notification.RemindNotificationManager
-import denis.beck.reminder.data.room.RemindDao
 import denis.beck.reminder.di.RemindManagerProvider
 import denis.beck.reminder.domain.remindManager.RemindManager
 import timber.log.Timber
