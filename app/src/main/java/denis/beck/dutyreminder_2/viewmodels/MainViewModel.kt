@@ -1,4 +1,4 @@
-package denis.beck.dutyreminder_2.fragments.main
+package denis.beck.dutyreminder_2.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

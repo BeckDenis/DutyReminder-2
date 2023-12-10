@@ -1,4 +1,4 @@
-package denis.beck.dutyreminder_2.fragments.newReminder
+package denis.beck.dutyreminder_2.fragments
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
@@ -14,6 +14,7 @@ import androidx.fragment.app.viewModels
 import denis.beck.dutyreminder_2.databinding.FragmentReminderBinding
 import denis.beck.dutyreminder_2.fragments.pickers.date.RemindDatePickerDialog
 import denis.beck.dutyreminder_2.fragments.pickers.time.RemindTimePickerDialog
+import denis.beck.dutyreminder_2.viewmodels.ReminderViewModel
 
 class ReminderFragment :
     Fragment(),

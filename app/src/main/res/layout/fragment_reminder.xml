@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:orientation="vertical"
-    tools:context=".fragments.main.MainFragment">
+    tools:context=".fragments.MainFragment">
 
     <denis.beck.dutyreminder_2.epoxy.views.WeekView
         android:id="@+id/week_view"

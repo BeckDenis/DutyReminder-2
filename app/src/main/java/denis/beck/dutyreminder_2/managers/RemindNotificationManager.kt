@@ -1,4 +1,4 @@
-package denis.beck.dutyreminder_2.notification
+package denis.beck.dutyreminder_2.managers
 
 import android.app.NotificationChannel
 import android.app.NotificationManager

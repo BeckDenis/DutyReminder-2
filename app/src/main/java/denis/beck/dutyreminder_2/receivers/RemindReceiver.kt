@@ -1,11 +1,12 @@
-package denis.beck.dutyreminder_2.remindManager
+package denis.beck.dutyreminder_2.receivers
 
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import denis.beck.dutyreminder_2.DutyReminderApp
 import denis.beck.dutyreminder_2.epoxy.repositories.RemindRepository
-import denis.beck.dutyreminder_2.notification.RemindNotificationManager
+import denis.beck.dutyreminder_2.managers.RemindManager
+import denis.beck.dutyreminder_2.managers.RemindNotificationManager
 import denis.beck.dutyreminder_2.utils.goAsync
 import timber.log.Timber
 import java.lang.IllegalStateException

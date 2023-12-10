@@ -1,4 +1,4 @@
-package denis.beck.dutyreminder_2.remindManager
+package denis.beck.dutyreminder_2.managers
 
 import android.app.AlarmManager
 import android.app.PendingIntent
@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import denis.beck.dutyreminder_2.epoxy.repositories.RemindRepository
 import denis.beck.dutyreminder_2.models.RemindDomainModel
+import denis.beck.dutyreminder_2.receivers.RemindReceiver
 import denis.beck.dutyreminder_2.utils.toDateAndTimeLogString
 import timber.log.Timber
 import java.util.Calendar

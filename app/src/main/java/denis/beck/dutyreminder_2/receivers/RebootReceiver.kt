@@ -1,4 +1,4 @@
-package denis.beck.dutyreminder_2.reboot
+package denis.beck.dutyreminder_2.receivers
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -7,9 +7,7 @@ import android.content.Intent.ACTION_REBOOT
 import denis.beck.dutyreminder_2.DutyReminderApp
 import denis.beck.dutyreminder_2.epoxy.repositories.RemindRepository
 import denis.beck.dutyreminder_2.models.RemindDomainModel
-import denis.beck.dutyreminder_2.remindManager.RemindManager
-import denis.beck.dutyreminder_2.room.RemindDao
-import denis.beck.dutyreminder_2.room.RemindEntity
+import denis.beck.dutyreminder_2.managers.RemindManager
 import denis.beck.dutyreminder_2.utils.goAsync
 
 class RebootReceiver : BroadcastReceiver() {

@@ -1,4 +1,4 @@
-package denis.beck.dutyreminder_2.fragments.main
+package denis.beck.dutyreminder_2.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,12 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
-import androidx.fragment.app.replace
 import androidx.fragment.app.viewModels
 import denis.beck.dutyreminder_2.R
 import denis.beck.dutyreminder_2.databinding.FragmentMainBinding
 import denis.beck.dutyreminder_2.epoxy.RemindController
-import denis.beck.dutyreminder_2.fragments.newReminder.ReminderFragment
+import denis.beck.dutyreminder_2.viewmodels.MainViewModel
 
 class MainFragment : Fragment() {
 

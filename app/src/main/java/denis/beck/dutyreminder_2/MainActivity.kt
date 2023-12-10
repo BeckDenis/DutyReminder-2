@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
-import denis.beck.dutyreminder_2.fragments.main.MainFragment
+import denis.beck.dutyreminder_2.fragments.MainFragment
 
 class MainActivity : AppCompatActivity() {
 

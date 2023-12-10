@@ -31,11 +31,11 @@
         <receiver
             android:enabled="true"
             android:exported="false"
-            android:name=".remindManager.RemindReceiver"/>
+            android:name=".receivers.RemindReceiver"/>
         <receiver
             android:enabled="true"
             android:exported="false"
-            android:name=".reboot.RebootReceiver" />
+            android:name=".receivers.RebootReceiver" />
     </application>
 
 </manifest>

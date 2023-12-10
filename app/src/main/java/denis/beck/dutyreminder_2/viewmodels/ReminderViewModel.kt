@@ -1,4 +1,4 @@
-package denis.beck.dutyreminder_2.fragments.newReminder
+package denis.beck.dutyreminder_2.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -11,7 +11,7 @@ import denis.beck.dutyreminder_2.DutyReminderApp
 import denis.beck.dutyreminder_2.epoxy.models.DayOfWeek
 import denis.beck.dutyreminder_2.epoxy.repositories.RemindRepository
 import denis.beck.dutyreminder_2.models.RemindDomainModel
-import denis.beck.dutyreminder_2.remindManager.RemindManager
+import denis.beck.dutyreminder_2.managers.RemindManager
 import denis.beck.dutyreminder_2.utils.SingleLiveEvent
 import denis.beck.dutyreminder_2.utils.toDateString
 import denis.beck.dutyreminder_2.utils.toTimeString
