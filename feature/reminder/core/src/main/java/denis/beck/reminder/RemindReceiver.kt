@@ -15,6 +15,7 @@ class RemindReceiver : BroadcastReceiver() {
         const val REMIND_ACTION = "remind.action"
         const val REMIND_ID_EXTRA = "remind.id.extra"
         const val REMIND_MESSAGE_EXTRA = "remind.message.extra"
+        const val REMIND_DESCRIPTION_EXTRA = "remind.decription.extra"
         const val REMIND_IS_PERIODICAL = "remind.periodical.extra"
     }
 
@@ -22,9 +23,10 @@ class RemindReceiver : BroadcastReceiver() {
         if (intent?.action == REMIND_ACTION && context != null) {
             val id = intent.getLongExtra(REMIND_ID_EXTRA, -1)
             val message = intent.getStringExtra(REMIND_MESSAGE_EXTRA) ?: throw IllegalStateException("message is null")
+            val description = intent.getStringExtra(REMIND_DESCRIPTION_EXTRA) ?: throw IllegalStateException("message is null")
 
             val notificationManager = (context.applicationContext as NotificationManagerProvider).notificationManager
-            notificationManager.showNotification(id, message)
+            notificationManager.showNotification(id, message, description)
 
             Timber.d("remind called, id:$id, message:$message prpr")
 

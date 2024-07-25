@@ -57,6 +57,7 @@ class RemindManager @Inject constructor(
             action = RemindReceiver.REMIND_ACTION
             putExtra(RemindReceiver.REMIND_ID_EXTRA, remindDomainModel.id)
             putExtra(RemindReceiver.REMIND_MESSAGE_EXTRA, remindDomainModel.message)
+            putExtra(RemindReceiver.REMIND_DESCRIPTION_EXTRA, remindDomainModel.description)
             putExtra(RemindReceiver.REMIND_IS_PERIODICAL, remindDomainModel.selectedDaysOfWeek.isNotEmpty())
         }
 

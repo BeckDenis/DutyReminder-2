@@ -10,5 +10,6 @@ data class RemindEntity(
     @PrimaryKey(autoGenerate = true) val id: Long,
     @ColumnInfo val timestamp: Long,
     @ColumnInfo val message: String,
+    @ColumnInfo val description: String,
     @ColumnInfo val selectedDayOfWeeks: Set<DayOfWeek>
 )

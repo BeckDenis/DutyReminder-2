@@ -12,20 +12,20 @@ class RemindNotificationManager @Inject constructor(private val context: Context
         private const val CHANNEL_ID = "remind.channel"
     }
 
-    fun showNotification(id: Long, message: String) {
+    fun showNotification(id: Long, message: String, description: String) {
         val notificationManager: NotificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val channel = createNotificationChannel()
-        val notification = createNotification(message)
+        val notification = createNotification(message, description)
 
         notificationManager.createNotificationChannel(channel)
         notificationManager.notify(id.toInt(), notification)
     }
 
-    private fun createNotification(message: String) = NotificationCompat.Builder(context, CHANNEL_ID)
+    private fun createNotification(message: String, description: String) = NotificationCompat.Builder(context, CHANNEL_ID)
         .setSmallIcon(R.drawable.ic_pin)
-        .setContentTitle("Duty Reminder")
-        .setContentText(message)
+        .setContentTitle(message)
+        .setContentText(description)
         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
         .build()
 

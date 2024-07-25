@@ -52,6 +52,9 @@ class ReminderViewModel @Inject constructor(
     private val _message = MutableLiveData<String>()
     val message: LiveData<String> = _message
 
+    private val _description = MutableLiveData<String>()
+    val description: LiveData<String> = _description
+
     private val dateAndTime: Calendar = Calendar.getInstance().apply {
         set(Calendar.SECOND, 0)
         set(Calendar.MILLISECOND, 0)
@@ -73,6 +76,7 @@ class ReminderViewModel @Inject constructor(
                     this@ReminderViewModel.initialRemind = remind
                     dateAndTime.timeInMillis = remind.timestamp
                     _message.postValue(remind.message)
+                    _description.postValue(remind.description)
                     _setSelectedDaysOfWeek.postValue(remind.selectedDaysOfWeek)
                 }
             }
@@ -95,10 +99,16 @@ class ReminderViewModel @Inject constructor(
         _showTimePicker.value = Unit
     }
 
-    fun onSaveButtonClick(timestamp: Long, message: String, selectedDayOfWeeks: Set<DayOfWeek>) {
+    fun onSaveButtonClick(
+        timestamp: Long,
+        message: String,
+        description: String,
+        selectedDayOfWeeks: Set<DayOfWeek>,
+    ) {
         val newRemind = RemindDomainModel(
             timestamp = timestamp,
             message = message,
+            description = description,
             selectedDaysOfWeek = selectedDayOfWeeks,
         )
         viewModelScope.launch(Dispatchers.IO) {
@@ -145,5 +155,4 @@ class ReminderViewModel @Inject constructor(
         _pickedDateText.postValue(dateAndTime.toDateString())
         _pickedTimeText.postValue(dateAndTime.toTimeString())
     }
-
 }

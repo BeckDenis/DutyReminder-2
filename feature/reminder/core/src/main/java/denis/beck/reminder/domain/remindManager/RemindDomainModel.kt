@@ -15,6 +15,7 @@ data class RemindDomainModel(
     val id: Long = 0,
     val timestamp: Long,
     val message: String,
+    val description: String,
     val selectedDaysOfWeek: Set<DayOfWeek> = emptySet(),
 ) : Parcelable {
 
@@ -23,6 +24,7 @@ data class RemindDomainModel(
             id = entity.id,
             timestamp = entity.timestamp,
             message = entity.message,
+            description = entity.description,
             selectedDaysOfWeek = entity.selectedDayOfWeeks,
         )
     }
@@ -31,6 +33,7 @@ data class RemindDomainModel(
         id = id,
         timestamp = timestamp,
         message = message,
+        description = description,
         selectedDayOfWeeks = selectedDaysOfWeek,
     )
 

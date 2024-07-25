@@ -3,6 +3,7 @@
     <string name="time_picker_button_text">Set Time</string>
     <string name="date_picker_button_text">Set Date</string>
     <string name="new_reminder_message_hint">Message</string>
+    <string name="new_reminder_description_hint">Description</string>
     <string name="save">Save</string>
     <string name="delete">Delete</string>
 </resources>

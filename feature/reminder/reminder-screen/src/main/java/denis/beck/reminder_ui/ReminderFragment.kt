@@ -80,6 +80,7 @@ class ReminderFragment :
             viewModel.onSaveButtonClick(
                 viewModel.timestamp,
                 binding.messageTextField.text.toString(),
+                binding.descriptionTextField.text.toString(),
                 binding.weekView.selectedDayOfWeeks
             )
         }
@@ -110,6 +111,9 @@ class ReminderFragment :
         }
         message.observe(viewLifecycleOwner) { message ->
             binding.messageTextField.setText(message)
+        }
+        description.observe(viewLifecycleOwner) { description ->
+            binding.descriptionTextField.setText(description)
         }
         dateTextVisibility.observe(viewLifecycleOwner) { isVisible ->
             binding.dateContainer.isVisible = isVisible
