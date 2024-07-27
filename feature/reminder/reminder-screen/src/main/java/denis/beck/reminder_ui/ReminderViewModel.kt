@@ -37,8 +37,8 @@ class ReminderViewModel @Inject constructor(
     private val _goBack = SingleLiveEvent<Unit>()
     val goBack: LiveData<Unit> = _goBack
 
-    private val _setSelectedDaysOfWeek = SingleLiveEvent<Set<DayOfWeek>>()
-    val setSelectedDaysOfWeek: LiveData<Set<DayOfWeek>> = _setSelectedDaysOfWeek
+    private val _selectedDaysOfWeekSet = SingleLiveEvent<Set<DayOfWeek>>()
+    val selectedDaysOfWeekSet: LiveData<Set<DayOfWeek>> = _selectedDaysOfWeekSet
 
     private val _dateTextVisibility = MutableLiveData<Boolean>()
     val dateTextVisibility: LiveData<Boolean> = _dateTextVisibility
@@ -48,6 +48,9 @@ class ReminderViewModel @Inject constructor(
 
     private val _pickedTimeText = MutableLiveData<String>()
     val pickedTimeText: LiveData<String> = _pickedTimeText
+
+    private val _selectedColor = MutableLiveData<String>()
+    val selectedColor: LiveData<String> = _selectedColor
 
     private val _message = MutableLiveData<String>()
     val message: LiveData<String> = _message
@@ -77,7 +80,8 @@ class ReminderViewModel @Inject constructor(
                     dateAndTime.timeInMillis = remind.timestamp
                     _message.postValue(remind.message)
                     _description.postValue(remind.description)
-                    _setSelectedDaysOfWeek.postValue(remind.selectedDaysOfWeek)
+                    _selectedDaysOfWeekSet.postValue(remind.selectedDaysOfWeek)
+                    _selectedColor.postValue(remind.color)
                 }
             }
             invalidateDateAndTimeText()
@@ -100,16 +104,16 @@ class ReminderViewModel @Inject constructor(
     }
 
     fun onSaveButtonClick(
-        timestamp: Long,
         message: String,
         description: String,
-        selectedDayOfWeeks: Set<DayOfWeek>,
     ) {
         val newRemind = RemindDomainModel(
             timestamp = timestamp,
             message = message,
             description = description,
-            selectedDaysOfWeek = selectedDayOfWeeks,
+            // ToDo stupid
+            selectedDaysOfWeek = selectedDaysOfWeekSet.value ?: emptySet(),
+            color = selectedColor.value!!,
         )
         viewModelScope.launch(Dispatchers.IO) {
             initialRemind?.let { oldRemind ->
@@ -148,7 +152,12 @@ class ReminderViewModel @Inject constructor(
     }
 
     fun onWeekDaySelected(selectedDayOfWeeks: Set<DayOfWeek>) {
+        _selectedDaysOfWeekSet.value = selectedDayOfWeeks
         _dateTextVisibility.value = selectedDayOfWeeks.isEmpty()
+    }
+
+    fun onColorSelected(color: String) {
+        _selectedColor.value = color
     }
 
     private fun invalidateDateAndTimeText() {
