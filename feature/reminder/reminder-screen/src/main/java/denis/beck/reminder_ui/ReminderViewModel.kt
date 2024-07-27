@@ -66,7 +66,7 @@ class ReminderViewModel @Inject constructor(
     // Можно оставить только id
     private var initialRemind: RemindDomainModel? = null
 
-    val timestamp: Long
+    private val timestamp: Long
         get() = dateAndTime.timeInMillis
 
     var state: RemindViewState = RemindViewState.NEW
@@ -82,6 +82,7 @@ class ReminderViewModel @Inject constructor(
                     _description.postValue(remind.description)
                     _selectedDaysOfWeekSet.postValue(remind.selectedDaysOfWeek)
                     _selectedColor.postValue(remind.color)
+                    _dateTextVisibility.postValue(remind.selectedDaysOfWeek.isEmpty())
                 }
             }
             invalidateDateAndTimeText()
