@@ -76,12 +76,11 @@ class ReminderFragment :
         datePickerButton.setOnClickListener {
             viewModel.onDatePickerButtonClick()
         }
+        // ToDo it's stupid. You must take everything from viewModel
         saveButton.setOnClickListener {
             viewModel.onSaveButtonClick(
-                viewModel.timestamp,
                 binding.messageTextField.text.toString(),
                 binding.descriptionTextField.text.toString(),
-                binding.weekView.selectedDayOfWeeks
             )
         }
         deleteButton.isVisible = viewModel.state == RemindViewState.CHANGE
@@ -90,6 +89,9 @@ class ReminderFragment :
         }
         weekView.setOnWeekDaySelectedListener { selectedWeekDays ->
             viewModel.onWeekDaySelected(selectedWeekDays)
+        }
+        colorPicker.setOnColorSelectListener { color ->
+            viewModel.onColorSelected(color)
         }
     }
 
@@ -118,8 +120,11 @@ class ReminderFragment :
         dateTextVisibility.observe(viewLifecycleOwner) { isVisible ->
             binding.dateContainer.isVisible = isVisible
         }
-        setSelectedDaysOfWeek.observe(viewLifecycleOwner) { selectedWeekDays ->
+        selectedDaysOfWeekSet.observe(viewLifecycleOwner) { selectedWeekDays ->
             binding.weekView.selectedDayOfWeeks = selectedWeekDays
+        }
+        selectedColor.observe(viewLifecycleOwner) { selectedColor ->
+            binding.colorPicker.setSelectedColor(selectedColor)
         }
     }
 

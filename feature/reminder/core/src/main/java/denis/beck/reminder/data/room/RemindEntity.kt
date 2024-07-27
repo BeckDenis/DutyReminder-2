@@ -11,5 +11,6 @@ data class RemindEntity(
     @ColumnInfo val timestamp: Long,
     @ColumnInfo val message: String,
     @ColumnInfo val description: String,
-    @ColumnInfo val selectedDayOfWeeks: Set<DayOfWeek>
+    @ColumnInfo val selectedDayOfWeeks: Set<DayOfWeek>,
+    @ColumnInfo val color: String,
 )

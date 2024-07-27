@@ -17,6 +17,7 @@ data class RemindDomainModel(
     val message: String,
     val description: String,
     val selectedDaysOfWeek: Set<DayOfWeek> = emptySet(),
+    val color: String,
 ) : Parcelable {
 
     companion object {
@@ -26,6 +27,7 @@ data class RemindDomainModel(
             message = entity.message,
             description = entity.description,
             selectedDaysOfWeek = entity.selectedDayOfWeeks,
+            color = entity.color
         )
     }
 
@@ -35,6 +37,7 @@ data class RemindDomainModel(
         message = message,
         description = description,
         selectedDayOfWeeks = selectedDaysOfWeek,
+        color = color,
     )
 
     fun toEpoxyDataModel(calendar: Calendar) = RemindEpoxyDataModel(
@@ -42,7 +45,9 @@ data class RemindDomainModel(
         timestamp = calendar.timeInMillis,
         message = message,
         extendedTimeStamp = ExtendedTimeStamp.fromCalendar(calendar),
-        timeText = calendar.formatTime()
+        timeText = calendar.formatTime(),
+        color = color,
+        description = description,
     )
 
     fun getNearestTimestamp(): Long {

@@ -6,6 +6,8 @@ import android.util.DisplayMetrics
 private val displayMetrics: DisplayMetrics by lazy { Resources.getSystem().displayMetrics }
 
 val widthDp = displayMetrics.run { widthPixels / density }
+val widthPx = displayMetrics.run { widthPixels }
+val heightPx = displayMetrics.run { heightPixels }
 
 val Float.dpToPx get() = this * displayMetrics.density
 val Int.dpToPx get() = this * displayMetrics.density
