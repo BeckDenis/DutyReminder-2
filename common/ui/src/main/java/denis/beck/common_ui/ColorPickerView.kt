@@ -122,8 +122,6 @@ class ColorPickerView @JvmOverloads constructor(
     private fun setViewHeight() {
         val location = IntArray(2)
         binding.root.getLocationInWindow(location)
-        // i don't know why it is five
-        yCoordinate = location[1]
         binding.root.layoutParams.apply {
             height = viewHeight
         }
@@ -230,7 +228,7 @@ class ColorPickerView @JvmOverloads constructor(
         GradientDrawable().apply {
             // ToDo oh God, just fix this shit
             colors = intArrayOf(color, Color.parseColor("#000000"))
-            gradientRadius = 700F
+            gradientRadius = 1200F
             gradientType = GradientDrawable.RADIAL_GRADIENT
             setGradientCenter((xCoordinate / widthPx.toFloat()), (yCoordinate / heightPx.toFloat()))
         }
