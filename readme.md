@@ -1,0 +1,1 @@
+adb shell dumpsys alarm > dump.txt
